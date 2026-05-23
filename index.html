@@ -1,26 +1,99 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <a href="directory.html" class="menu-icon">☰</a>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二项式顺铂项目集成站</title>
     <style>
         body {
-            background: #1a1a2e;
-            color: white;
-            font-family: 'Microsoft YaHei', sans-serif;
-            text-align: center;
-            padding-top: 80px;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 12px 25px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .home-link {
+            color: #ffb7c5;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        .menu-icon {
+            font-size: 1.8em;
+            color: #ffb7c5;
+            text-decoration: none;
+            line-height: 1;
+            transition: 0.2s;
+        }
+        .menu-icon:hover {
+            color: #fff;
+            text-shadow: 0 0 8px #ffb7c5;
+        }
+
+        /* 内容区 */
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 40px 35px;
+            line-height: 1.8;
         }
         h1 {
+            text-align: center;
             color: #ffb7c5;
+            font-size: 2.5em;
+            margin-top: 0;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255,183,197,0.5);
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            opacity: 0.5;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
-    <h1>🎤 欢迎来到我的世界-二项式顺铂</h1>
-    <p>网站刚刚诞生，一切都将在这里慢慢生长。</p>
-    <p>2026年2月15日-亡星虚拟歌姬计划</p>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <a href="index.html" class="home-link">首页</a>
+        <a href="directory.html" class="menu-icon">☰</a>
+    </nav>
+
+    <div class="content">
+        <h1>🎤 欢迎来到我的世界</h1>
+        <p>网站刚刚诞生，一切都将在这里慢慢生长。</p>
+        <p>2026年2月15日-亡星虚拟歌姬计划</p>
+        <p>2026年5月18日-百声计划</p>
+    </div>
+
+    <div class="footer">
+        © 2026 二项式顺铂
+    </div>
 </body>
 </html>
