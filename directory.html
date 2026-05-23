@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目录</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 12px 25px;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .home-link {
+            color: #ffb7c5;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        .menu-icon {
+            font-size: 1.8em;
+            color: #ffb7c5;
+            text-decoration: none;
+            line-height: 1;
+            transition: 0.2s;
+        }
+        .menu-icon:hover {
+            color: #fff;
+            text-shadow: 0 0 8px #ffb7c5;
+        }
+
+        /* 目录卡片容器 */
+        .directory-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 30px;
+            padding: 40px 35px;
+            max-width: 500px;
+            width: 100%;
+            /* 动画部分 */
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* 从下往上滑入动画 */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(80px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffb7c5;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        /* 目录列表 */
+        .dir-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .dir-list li {
+            margin-bottom: 15px;
+        }
+        .dir-list a {
+            display: block;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            color: #eee;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: 0.2s;
+            text-align: center;
+        }
+        .dir-list a:hover {
+            background: rgba(255,183,197,0.15);
+            border-color: #ffb7c5;
+            color: #ffb7c5;
+            transform: translateX(5px);
+        }
+
+        .footer {
+            margin-top: 40px;
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <a href="index.html" class="home-link">首页</a>
+        <a href="directory.html" class="menu-icon">☰</a>
+    </nav>
+
+    <div class="directory-card">
+        <h2>📋 目录</h2>
+        <ul class="dir-list">
+            <li><a href="index.html">🏠 首页</a></li>
+            <li><a href="#">🌌 亡星虚拟歌姬计划</a></li>
+            <li><a href="#">🎙️ 百声企划</a></li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        © 2026 二项式顺铂
+    </div>
+</body>
+</html>
