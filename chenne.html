@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>敶音 ハン - 亡星虚拟歌姬计划</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 12px 25px;
+            margin-bottom: 30px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .home-link {
+            color: #ffb7c5;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        .menu-icon {
+            font-size: 1.8em;
+            color: #ffb7c5;
+            text-decoration: none;
+            line-height: 1;
+            transition: 0.2s;
+        }
+        .menu-icon:hover { color: #fff; text-shadow: 0 0 8px #ffb7c5; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 头部 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #ff8c3d;
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(255,140,0,0.5);
+            letter-spacing: 4px;
+        }
+        .logo {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid rgba(255,140,0,0.4);
+            box-shadow: 0 0 20px rgba(255,140,0,0.3);
+            background: rgba(0,0,0,0.4);
+        }
+
+        /* 卡片通用 */
+        .card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .card h2 {
+            color: #ff8c3d;
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255,140,0,0.3);
+            padding-bottom: 8px;
+            font-size: 1.5em;
+        }
+
+        /* 档案网格 */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .profile-item {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .profile-item strong {
+            color: #ff8c3d;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.9em;
+        }
+        .bio-text {
+            margin-top: 15px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        .bio-text em {
+            color: #ff8c3d;
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        /* 关系与细节 */
+        .rel-tag {
+            display: inline-block;
+            background: rgba(255,140,0,0.15);
+            border: 1px solid rgba(255,140,0,0.4);
+            border-radius: 20px;
+            padding: 4px 14px;
+            margin: 3px 6px 3px 0;
+            font-size: 0.9em;
+        }
+
+        /* 曲目与下载 */
+        .demo-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .demo-item {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .demo-item audio {
+            height: 36px;
+        }
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff8c3d, #ff6a1a);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 8px 10px 0 0;
+            transition: 0.2s;
+            box-shadow: 0 0 15px rgba(255,140,0,0.4);
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255,140,0,0.7);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+            h1 { font-size: 2.2em; margin-bottom: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="home-link">首页</a>
+        <a href="directory.html" class="menu-icon">☰</a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>敶音 ハン</h1>
+            <img src="images/chennelogo.png" alt="敶音 ハン LOGO" class="logo">
+        </div>
+
+        <!-- 基础档案 -->
+        <div class="card">
+            <h2>📋 基础档案</h2>
+            <div class="profile-grid">
+                <div class="profile-item"><strong>姓名</strong> 楓染川 冸（かえでそめかわ ハン）</div>
+                <div class="profile-item"><strong>代号 / 别称</strong> 敶音 ハン（チェンね ハン）</div>
+                <div class="profile-item"><strong>生日</strong> 2月17日（农历大年初一）</div>
+                <div class="profile-item"><strong>年龄</strong> 17岁（设定恒定）</div>
+                <div class="profile-item"><strong>性别</strong> 男</div>
+                <div class="profile-item"><strong>身高 / 体重</strong> 179cm / 39kg</div>
+                <div class="profile-item"><strong>代表物</strong> 氧化铜、萨卡班甲鱼</div>
+                <div class="profile-item"><strong>应援色</strong> 灰、橙、黑</div>
+                <div class="profile-item"><strong>声源提供者</strong> 二项式顺铂</div>
+                <div class="profile-item"><strong>形象设计</strong> Q1_桃询</div>
+            </div>
+            <p class="bio-text"><em>「一个永远困在17岁的憔悴青年。」</em></p>
+        </div>
+
+        <!-- 外貌特征 -->
+        <div class="card">
+            <h2>🎨 外貌特征</h2>
+            <div class="profile-grid">
+                <div class="profile-item"><strong>发型</strong> M字刘海刺猬头，前边有一条长鬓角</div>
+                <div class="profile-item"><strong>发色</strong> 灰色</div>
+                <div class="profile-item"><strong>瞳色</strong> 左黑右橙</div>
+                <div class="profile-item"><strong>标志性特征</strong> 氧化铜精灵、萨卡班甲鱼耳麦耳机</div>
+                <div class="profile-item"><strong>服装风格</strong> 西式制服</div>
+                <div class="profile-item"><strong>常驻配饰</strong> 氧化铜精灵</div>
+            </div>
+        </div>
+
+        <!-- 性格与特质 -->
+        <div class="card">
+            <h2>🧠 性格与特质</h2>
+            <div class="profile-grid">
+                <div class="profile-item"><strong>外在性格</strong> 厌倦一切的应试者</div>
+                <div class="profile-item"><strong>内在性格</strong> 渴望结束的停摆人</div>
+                <div class="profile-item"><strong>核心特质</strong> 毫无生气、略带嘶哑的声线</div>
+                <div class="profile-item"><strong>习惯性动作</strong> 发呆</div>
+                <div class="profile-item"><strong>口癖</strong> 吸气</div>
+                <div class="profile-item"><strong>最大的爱好</strong> 发呆</div>
+                <div class="profile-item"><strong>最讨厌 / 害怕</strong> 被认成女生、一切事物</div>
+            </div>
+        </div>
+
+        <!-- 背景故事 -->
+        <div class="card">
+            <h2>📖 背景故事</h2>
+            <div class="bio-text">
+                <p><strong style="color:#ff8c3d;">出身/起源：</strong>一段来自自己14岁的录音。</p>
+                <p><strong style="color:#ff8c3d;">核心经历：</strong>新型冠状病毒后遗症：抑郁症、植物性神经紊乱。</p>
+                <p><strong style="color:#ff8c3d;">世界观设定：</strong>在疾病与折磨中进行时间循环。</p>
+                <p><strong style="color:#ff8c3d;">个人愿望/梦想：</strong>逃离。</p>
+            </div>
+        </div>
+
+        <!-- 人际关系 -->
+        <div class="card">
+            <h2>🤝 人际关系</h2>
+            <div class="bio-text">
+                <p><span class="rel-tag">所属团体：敶音系列</span>
+                <span class="rel-tag">队友：敶音ジン、紬音シュン</span>
+                <span class="rel-tag">劲敌：酸素音ビン</span></p>
+                <p><strong style="color:#ff8c3d;">与制作人的关系：</strong>被拯救者</p>
+                <p><strong style="color:#ff8c3d;">与粉丝的关系（对粉丝的称呼）：</strong>旁观者</p>
+            </div>
+        </div>
+
+        <!-- 兴趣爱好与生活细节 -->
+        <div class="card">
+            <h2>☕ 兴趣爱好与生活细节</h2>
+            <div class="profile-grid">
+                <div class="profile-item"><strong>喜欢的音乐类型</strong> 杂乱的碎核、梦核纯音乐</div>
+                <div class="profile-item"><strong>拿手的技能</strong> 考试</div>
+                <div class="profile-item"><strong>喜欢的食物</strong> 咖啡巧克力</div>
+                <div class="profile-item"><strong>讨厌的食物</strong> 胡萝卜</div>
+                <div class="profile-item"><strong>擅长的科目</strong> 所有</div>
+                <div class="profile-item"><strong>小癖好</strong> 焦虑时会快速呼吸导致呼吸道碱性中毒</div>
+                <div class="profile-item"><strong>日常作息</strong> 03:00睡，18:00起</div>
+            </div>
+        </div>
+
+        <!-- 歌唱与音源设定 -->
+        <div class="card">
+            <h2>🎤 歌唱与音源设定</h2>
+            <div class="profile-grid">
+                <div class="profile-item"><strong>音源引擎</strong> UTAU</div>
+                <div class="profile-item"><strong>推荐音域与曲速</strong> 中音区</div>
+                <div class="profile-item"><strong>标志性声线</strong> 厌烦了一切</div>
+                <div class="profile-item"><strong>Demo曲/代表曲目</strong> 黄金数</div>
+            </div>
+
+            <!-- 试听区域（自行替换音频文件） -->
+            <div style="margin-top:20px;">
+                <h3 style="color:#ff8c3d; margin-bottom:10px;">🎵 曲目试听</h3>
+                <div class="demo-list">
+                    <div class="demo-item">
+                        <span>《黄金数》</span>
+                        <audio controls src="audio/huangjinshu.mp3"></audio>
+                    </div>
+                    <!-- 备用外链示例 -->
+                    <div class="demo-item">
+                        <span>试听外链</span>
+                        <a href="#" target="_blank" style="color:#ff8c3d;">▶ 跳转</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 下载区 -->
+            <div style="margin-top:25px;">
+                <h3 style="color:#ff8c3d;">⬇️ 声库下载</h3>
+                <a href="downloads/chenne-cvvc.zip" class="download-btn">扩展版 V1.0 (CVC)</a>
+                <a href="downloads/chenne-lite.zip" class="download-btn">轻量版 V1.0</a>
+                <p style="margin-top:12px; opacity:0.6;">下载包直接托管于GitHub，点击即可下载。也可备用网盘链接。</p>
+            </div>
+        </div>
+
+        <div class="footer">© 2026 亡星虚拟歌姬计划 · 敶音 ハン</div>
+    </div>
+</body>
+</html>
