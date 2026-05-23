@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>亡星虚拟歌姬计划 - 幻音歌姬计划</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        /* 导航栏（与你其他页面保持一致） */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 12px 25px;
+            margin-bottom: 30px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .home-link {
+            color: #ffb7c5;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        .menu-icon {
+            font-size: 1.8em;
+            color: #ffb7c5;
+            text-decoration: none;
+            line-height: 1;
+            transition: 0.2s;
+        }
+        .menu-icon:hover { color: #fff; text-shadow: 0 0 8px #ffb7c5; }
+
+        /* 左右双色块容器 */
+        .hero-split {
+            display: flex;
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 70vh;
+            min-height: 500px;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        /* 单个色块 */
+        .hero-panel {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+            transition: flex 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
+            text-decoration: none;
+            color: white;
+        }
+        /* 左边橙色发光 */
+        .panel-left {
+            background: rgba(255, 140, 0, 0.15);
+            box-shadow: inset 0 0 60px rgba(255, 140, 0, 0.4), 0 0 30px rgba(255, 140, 0, 0.3);
+        }
+        /* 右边粉色发光 */
+        .panel-right {
+            background: rgba(255, 105, 180, 0.15);
+            box-shadow: inset 0 0 60px rgba(255, 105, 180, 0.4), 0 0 30px rgba(255, 105, 180, 0.3);
+        }
+        /* 悬停时色块放大（占据更多空间） */
+        .hero-panel:hover {
+            flex: 1.5;
+            z-index: 2;
+        }
+        .panel-left:hover {
+            box-shadow: inset 0 0 80px rgba(255, 140, 0, 0.7), 0 0 50px rgba(255, 140, 0, 0.6);
+        }
+        .panel-right:hover {
+            box-shadow: inset 0 0 80px rgba(255, 105, 180, 0.7), 0 0 50px rgba(255, 105, 180, 0.6);
+        }
+
+        /* 角色立绘：平时半露，悬停完整展现 */
+        .hero-panel img {
+            position: absolute;
+            height: 90%;
+            width: auto;
+            bottom: 0;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
+            opacity: 0.7;
+            filter: brightness(0.9);
+        }
+        /* 左侧立绘从左边探出，平时只露一小半，所以初始位置是 left: -30% */
+        .panel-left img {
+            left: -30%;
+            transform: translateX(0);
+        }
+        /* 悬停时立绘完全移入视野 */
+        .panel-left:hover img {
+            left: 5%;
+            transform: translateX(0);
+            opacity: 1;
+            filter: brightness(1.1);
+        }
+        /* 右侧立绘从右边探出，初始位置 right: -30% */
+        .panel-right img {
+            right: -30%;
+            transform: translateX(0);
+        }
+        .panel-right:hover img {
+            right: 5%;
+            transform: translateX(0);
+            opacity: 1;
+            filter: brightness(1.1);
+        }
+
+        /* 角色名字，平时半透明，悬停时浮现 */
+        .panel-name {
+            position: relative;
+            z-index: 3;
+            font-size: 2.5em;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(0,0,0,0.7);
+            transition: transform 0.4s, opacity 0.4s;
+            opacity: 0.7;
+            transform: translateY(10px);
+        }
+        .hero-panel:hover .panel-name {
+            opacity: 1;
+            transform: translateY(0);
+            text-shadow: 0 0 30px currentColor;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="index.html" class="home-link">首页</a>
+        <a href="directory.html" class="menu-icon">☰</a>
+    </nav>
+
+    <!-- 双角色展示区 -->
+    <div class="hero-split">
+        <!-- 左角色：橙色 -->
+        <a href="#" class="hero-panel panel-left">
+            <img src="images/role-left.png" alt="左角色立绘">
+            <span class="panel-name">敶音 ハン</span>
+        </a>
+        <!-- 右角色：粉色 -->
+        <a href="#" class="hero-panel panel-right">
+            <img src="images/role-right.png" alt="右角色立绘">
+            <span class="panel-name">紬音シュン</span>
+        </a>
+    </div>
+
+    <div class="footer">© 2026 二项式顺铂</div>
+</body>
+</html>
