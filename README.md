@@ -1,1 +1,5 @@
-# bc317yvm.github.io
+# gandisnans.github.io
+这是二项式顺铂的长期个人网址！
+我会勤加维护的！
+网页部分使用**ai**制作
+只是承载内容的载体呢
