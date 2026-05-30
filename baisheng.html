@@ -12,9 +12,78 @@
             margin: 0;
             padding: 20px;
             min-height: 100vh;
+            overflow-x: hidden;
         }
+        /* 背景小球容器 */
+        .bg-balls {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* 让点击穿透到下方内容 */
+            z-index: 0;
+        }
+        /* 单个小球 */
+        .ball {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background: rgba(20, 20, 30, 0.55);
+            border: 2px solid rgba(255, 140, 179, 0.6);
+            box-shadow: 0 0 10px rgba(255,140,179,0.2);
+            color: rgba(255,255,255,0.8);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            animation: floatBall 12s infinite alternate ease-in-out;
+            pointer-events: auto; /* 使小球可悬停 */
+            cursor: default;
+            z-index: 1;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .ball:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 25px currentColor;
+            border-color: #fff;
+            color: #fff;
+            z-index: 10;
+        }
+        /* 不同颜色的小球边框 */
+        .ball.pink { border-color: rgba(255, 140, 179, 0.7); }
+        .ball.orange { border-color: rgba(255, 165, 0, 0.7); }
+        .ball.purple { border-color: rgba(180, 130, 255, 0.7); }
+        .ball.green { border-color: rgba(100, 255, 180, 0.7); }
+        .ball.blue { border-color: rgba(100, 180, 255, 0.7); }
+
+        /* 不同飘动路径 */
+        @keyframes floatBall {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(30px, -20px); }
+            50% { transform: translate(-15px, 25px); }
+            75% { transform: translate(-25px, -10px); }
+            100% { transform: translate(20px, 15px); }
+        }
+        /* 每个球稍微错开时间 */
+        .ball:nth-child(1) { animation-duration: 14s; animation-delay: 0s; }
+        .ball:nth-child(2) { animation-duration: 16s; animation-delay: -3s; }
+        .ball:nth-child(3) { animation-duration: 13s; animation-delay: -6s; }
+        .ball:nth-child(4) { animation-duration: 15s; animation-delay: -9s; }
+        .ball:nth-child(5) { animation-duration: 17s; animation-delay: -12s; }
+        .ball:nth-child(6) { animation-duration: 11s; animation-delay: -15s; }
+        .ball:nth-child(7) { animation-duration: 18s; animation-delay: -18s; }
+        .ball:nth-child(8) { animation-duration: 12s; animation-delay: -21s; }
+        .ball:nth-child(9) { animation-duration: 14s; animation-delay: -24s; }
+        .ball:nth-child(10) { animation-duration: 16s; animation-delay: -27s; }
+        /* 如果小球更多，继续添加... */
+
         /* 导航栏 */
         .navbar {
+            position: relative;
+            z-index: 20;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -45,6 +114,8 @@
         .menu-icon:hover { color: #fff; text-shadow: 0 0 8px #ffb7c5; }
 
         .container {
+            position: relative;
+            z-index: 20;
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -58,15 +129,15 @@
             margin-bottom: 15px;
         }
 
-        /* 介绍文本 - 带悬停特效 */
+        /* 介绍文本 */
         .intro-text {
             text-align: center;
             max-width: 750px;
             margin: 0 auto 35px auto;
             font-size: 1.15em;
             line-height: 1.9;
-            opacity: 0.8;
-            color: #ccc;
+            opacity: 0.85;
+            color: #ddd;
             padding: 20px 25px;
             border-radius: 15px;
             transition: all 0.4s ease;
@@ -84,7 +155,6 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.4);
         }
 
-        /* 制作中歌姬标题 */
         .section-title {
             text-align: center;
             color: #ffb7c5;
@@ -93,7 +163,6 @@
             opacity: 0.9;
         }
 
-        /* 歌姬标签云 */
         .name-cloud {
             display: flex;
             flex-wrap: wrap;
@@ -120,6 +189,8 @@
         }
 
         .footer {
+            position: relative;
+            z-index: 20;
             text-align: center;
             margin-top: 50px;
             opacity: 0.5;
@@ -133,6 +204,9 @@
     </style>
 </head>
 <body>
+    <!-- 动态背景小球 -->
+    <div class="bg-balls" id="bgBalls"></div>
+
     <!-- 导航栏 -->
     <nav class="navbar">
         <a href="index.html" class="home-link">首页</a>
@@ -142,7 +216,6 @@
     <div class="container">
         <h1>🎙️ 百声企划</h1>
 
-        <!-- 介绍段落（悬停有特效） -->
         <div class="intro-text">
             这是一项跨越100个平行宇宙的声音封存计划。<br>
             每一个宇宙里，都有一位歌姬的声库被小心翼翼地采集、制作、归档。<br>
@@ -150,8 +223,7 @@
             100种音色，100段故事，100个等待被唱响的世界。
         </div>
 
-        <!-- 制作中歌姬 -->
-        <div class="section-title">✦ 制作中-歌姬 ✦</div>
+        <div class="section-title">✦ 制作中の歌姬 ✦</div>
         <div class="name-cloud">
             <span class="name-tag">酸素音 ビン</span>
             <span class="name-tag">余音 マン</span>
@@ -163,5 +235,39 @@
 
         <div class="footer">© 2026 二项式顺铂 · 百声企划</div>
     </div>
+
+    <script>
+        (function() {
+            const container = document.getElementById('bgBalls');
+            // 片假名列表
+            const kana = ['ア','イ','ウ','エ','オ','カ','キ','ク','ケ','コ','サ','シ','ス','セ','ソ',
+                          'タ','チ','ツ','テ','ト','ナ','ニ','ヌ','ネ','ノ','ハ','ヒ','フ','ヘ','ホ',
+                          'マ','ミ','ム','メ','モ','ヤ','ユ','ヨ','ラ','リ','ル','レ','ロ','ワ','ヲ','ン'];
+            // 颜色类名
+            const colorClasses = ['pink', 'orange', 'purple', 'green', 'blue'];
+            const ballCount = 20; // 小球数量
+
+            for (let i = 0; i < ballCount; i++) {
+                const ball = document.createElement('div');
+                ball.classList.add('ball');
+                // 随机片假名
+                ball.textContent = kana[Math.floor(Math.random() * kana.length)];
+                // 随机颜色类
+                ball.classList.add(colorClasses[Math.floor(Math.random() * colorClasses.length)]);
+                // 随机大小
+                const size = 50 + Math.floor(Math.random() * 60); // 50-110px
+                ball.style.width = size + 'px';
+                ball.style.height = size + 'px';
+                ball.style.fontSize = (size * 0.4) + 'px';
+                // 随机位置
+                ball.style.left = Math.random() * 90 + '%';
+                ball.style.top = Math.random() * 90 + '%';
+                // 随机动画延迟，让运动更错落
+                ball.style.animationDelay = -(Math.random() * 10) + 's';
+                ball.style.animationDuration = 10 + Math.random() * 10 + 's';
+                container.appendChild(ball);
+            }
+        })();
+    </script>
 </body>
 </html>
