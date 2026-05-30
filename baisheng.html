@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百声企划 - 幻音歌姬计划</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 12px 25px;
+            margin-bottom: 30px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .home-link {
+            color: #ffb7c5;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        .menu-icon {
+            font-size: 1.8em;
+            color: #ffb7c5;
+            text-decoration: none;
+            line-height: 1;
+            transition: 0.2s;
+        }
+        .menu-icon:hover { color: #fff; text-shadow: 0 0 8px #ffb7c5; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #ffb7c5;
+            text-shadow: 0 0 25px rgba(255,183,197,0.6);
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        /* 介绍文本 - 带悬停特效 */
+        .intro-text {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 35px auto;
+            font-size: 1.15em;
+            line-height: 1.9;
+            opacity: 0.8;
+            color: #ccc;
+            padding: 20px 25px;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            cursor: default;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid transparent;
+        }
+        .intro-text:hover {
+            opacity: 1;
+            color: #fff;
+            text-shadow: 0 0 12px rgba(255,183,197,0.5);
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,183,197,0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+
+        /* 制作中歌姬标题 */
+        .section-title {
+            text-align: center;
+            color: #ffb7c5;
+            font-size: 1.8em;
+            margin: 40px 0 20px;
+            opacity: 0.9;
+        }
+
+        /* 歌姬标签云 */
+        .name-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .name-tag {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 30px;
+            padding: 10px 22px;
+            font-size: 1.1em;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            cursor: default;
+        }
+        .name-tag:hover {
+            background: rgba(255,183,197,0.15);
+            border-color: #ffb7c5;
+            box-shadow: 0 0 15px rgba(255,183,197,0.3);
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2em; }
+            .intro-text { font-size: 1em; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="index.html" class="home-link">首页</a>
+        <a href="directory.html" class="menu-icon">☰</a>
+    </nav>
+
+    <div class="container">
+        <h1>🎙️ 百声企划</h1>
+
+        <!-- 介绍段落（悬停有特效） -->
+        <div class="intro-text">
+            这是一项跨越100个平行宇宙的声音封存计划。<br>
+            每一个宇宙里，都有一位歌姬的声库被小心翼翼地采集、制作、归档。<br>
+            她们尚未苏醒，但声音的种子已经埋下。<br>
+            100种音色，100段故事，100个等待被唱响的世界。
+        </div>
+
+        <!-- 制作中歌姬 -->
+        <div class="section-title">✦ 制作中-歌姬 ✦</div>
+        <div class="name-cloud">
+            <span class="name-tag">酸素音 ビン</span>
+            <span class="name-tag">余音 マン</span>
+            <span class="name-tag">敶音 ジン</span>
+            <span class="name-tag">遙音 イェン</span>
+            <span class="name-tag">武音 シェン</span>
+            <span class="name-tag">遠音 フォン</span>
+        </div>
+
+        <div class="footer">© 2026 二项式顺铂 · 百声企划</div>
+    </div>
+</body>
+</html>
