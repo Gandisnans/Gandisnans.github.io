@@ -13,7 +13,7 @@
             padding: 20px;
             min-height: 100vh;
         }
-        /* 导航栏（与你其他页面保持一致） */
+        /* 导航栏 */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -43,6 +43,39 @@
             transition: 0.2s;
         }
         .menu-icon:hover { color: #fff; text-shadow: 0 0 8px #ffb7c5; }
+
+        /* 页面标题 */
+        h1 {
+            text-align: center;
+            color: #ffb7c5;
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255,183,197,0.4);
+            letter-spacing: 3px;
+        }
+
+        /* 新增：引导介绍文字 */
+        .intro-text {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            font-size: 1.1em;
+            line-height: 1.8;
+            opacity: 0.8;
+            color: #ccc;
+            padding: 15px 20px;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            cursor: default;
+        }
+        .intro-text:hover {
+            opacity: 1;
+            color: #fff;
+            text-shadow: 0 0 12px rgba(255,183,197,0.6);
+            background: rgba(255,255,255,0.04);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
 
         /* 左右双色块容器 */
         .hero-split {
@@ -78,7 +111,7 @@
             background: rgba(255, 105, 180, 0.15);
             box-shadow: inset 0 0 60px rgba(255, 105, 180, 0.4), 0 0 30px rgba(255, 105, 180, 0.3);
         }
-        /* 悬停时色块放大（占据更多空间） */
+        /* 悬停时色块放大 */
         .hero-panel:hover {
             flex: 1.5;
             z-index: 2;
@@ -90,7 +123,7 @@
             box-shadow: inset 0 0 80px rgba(255, 105, 180, 0.7), 0 0 50px rgba(255, 105, 180, 0.6);
         }
 
-        /* 角色立绘：平时半露，悬停完整展现 */
+        /* 角色立绘 */
         .hero-panel img {
             position: absolute;
             height: 90%;
@@ -100,19 +133,16 @@
             opacity: 0.7;
             filter: brightness(0.9);
         }
-        /* 左侧立绘从左边探出，平时只露一小半，所以初始位置是 left: -30% */
         .panel-left img {
             left: -30%;
             transform: translateX(0);
         }
-        /* 悬停时立绘完全移入视野 */
         .panel-left:hover img {
             left: 5%;
             transform: translateX(0);
             opacity: 1;
             filter: brightness(1.1);
         }
-        /* 右侧立绘从右边探出，初始位置 right: -30% */
         .panel-right img {
             right: -30%;
             transform: translateX(0);
@@ -124,7 +154,7 @@
             filter: brightness(1.1);
         }
 
-        /* 角色名字，平时半透明，悬停时浮现 */
+        /* 角色名字 */
         .panel-name {
             position: relative;
             z-index: 3;
@@ -157,16 +187,26 @@
         <a href="directory.html" class="menu-icon">☰</a>
     </nav>
 
+    <!-- 页面标题 -->
+    <h1>🌌 亡星虚拟歌姬计划</h1>
+
+    <!-- 新增：介绍文本（鼠标悬停有特效） -->
+    <div class="intro-text">
+        在废弃的星轨尽头，沉睡的歌姬们被重新唤醒。<br>
+        她们用声音编织记忆，用旋律对抗遗忘。<br>
+        选择一位歌姬，走进她的过去与未来。
+    </div>
+
     <!-- 双角色展示区 -->
     <div class="hero-split">
         <!-- 左角色：橙色 -->
         <a href="chenne.html" class="hero-panel panel-left">
-            <img src="images/chenne.png" alt="左角色立绘">
+            <img src="images/chenne.png" alt="敶音 ハン">
             <span class="panel-name">敶音 ハン</span>
         </a>
         <!-- 右角色：粉色 -->
         <a href="chuune.html" class="hero-panel panel-right">
-            <img src="images/chuune.png" alt="右角色立绘">
+            <img src="images/chuune.png" alt="紬音シュン">
             <span class="panel-name">紬音シュン</span>
         </a>
     </div>
