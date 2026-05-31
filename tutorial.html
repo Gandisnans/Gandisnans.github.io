@@ -5,6 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>声源制作教程</title>
     <style>
+        /* 按键样式 */
+        kbd {
+            display: inline-block;
+            background: #2a2a3e;
+            color: #ffb7c5;
+            border: 1px solid #ffb7c5;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-family: inherit;
+            font-weight: bold;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+            margin: 0 2px;
+        }
+        
+        /* 横向音频对比容器 */
+        .audio-compare {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .audio-item {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+        .audio-item audio {
+            width: 100%;
+            margin-top: 8px;
+        }
+        .audio-item .error-label {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .audio-item .correct-label {
+            color: #6bff9e;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        /* 对话气泡 */
+        .qa-container {
+            margin: 20px 0;
+        }
+        .qa-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: flex-start;
+        }
+        .qa-item.q {
+            flex-direction: row;
+        }
+        .qa-item.a {
+            flex-direction: row-reverse;
+        }
+        .qa-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            flex-shrink: 0;
+        }
+        .qa-bubble {
+            flex: 1;
+            background: rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 15px;
+            position: relative;
+        }
+        .qa-bubble img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .q .qa-bubble {
+            background: rgba(255,140,179,0.12);
+            border: 1px solid rgba(255,140,179,0.3);
+        }
+        .a .qa-bubble {
+            background: rgba(100,200,255,0.12);
+            border: 1px solid rgba(100,200,255,0.3);
+        }
         :root {
             --c1: #ff8cb3; /* 粉 */
             --c2: #ffb347; /* 橙 */
@@ -241,19 +332,141 @@
 
         <!-- 第二章 -->
         <div id="ch2" class="chapter ch2" style="--highlight-color: #ffb347;">
-            <h2>🔧 第二步：音频处理</h2>
-            <!-- 图文混排：图左（使用 reverse） -->
-            <div class="row reverse">
+            <h2>🎙️ 第二步：录音流程</h2>
+        
+            <!-- 1. 讲解oremo界面 -->
+            <div class="row">
                 <div class="text">
-                    <p>用 Audacity 或 OcenAudio 打开录制的原始文件。首先进行降噪处理，选取一段空白噪音样本，应用降噪效果。</p>
-                    <p>接着使用压缩器平衡音量，让轻声和大声的片段听起来更均匀。</p>
+                    <p><strong>1. Oremo 界面讲解</strong></p>
+                    <ul>
+                        <li><strong>录音区</strong>：显示当前要录制的文本，大字显示。</li>
+                        <li><strong>正在录音文本条</strong>：底部状态栏显示当前录音编号。</li>
+                        <li><strong>文本条列表</strong>：左侧列表，可点击切换或查看进度。</li>
+                        <li><strong>菜单栏</strong>：文件、设置、帮助等选项。</li>
+                        <li><strong>音频展示区</strong>：右侧波形/频谱显示，录音后可见。</li>
+                    </ul>
                 </div>
                 <div class="image">
-                    <img src="images/tutorial-audacity.jpg" alt="Audacity 界面">
+                    <img src="images/tutorial-oremo-interface.jpg" alt="Oremo 界面说明">
                 </div>
             </div>
+        
+            <!-- 2. 选择录音文件夹 -->
+            <p><strong>2. 选择录音文件夹</strong>（建议将 Oremo 和录音文件夹都移到桌面，路径使用纯英文）</p>
+            <div class="row">
+                <div class="image">
+                    <img src="images/tutorial-move-folder1.jpg" alt="移动文件夹到桌面">
+                </div>
+                <div class="image">
+                    <img src="images/tutorial-move-folder2.jpg" alt="选择文件夹">
+                </div>
+            </div>
+            <p style="text-align:center; opacity:0.7;">左图：文件夹在桌面 / 右图：在 Oremo 中选择该文件夹</p>
+        
+            <!-- 3. 选择录音表 -->
+            <div class="row">
+                <div class="text">
+                    <p><strong>3. 选择录音表</strong></p>
+                    <p>在录音文件夹中，我已放好了录音表（.txt 文档）。请选择<strong>没有写 “comment” 的那个 txt 文件</strong>，它通常就是纯净的录音列表。</p>
+                </div>
+                <div class="image">
+                    <img src="images/tutorial-select-table.jpg" alt="选择录音表">
+                </div>
+            </div>
+        
+            <!-- 4. 基础设置配置 -->
+            <p><strong>4. 基础设置配置</strong>（点击菜单“设置”或齿轮图标）</p>
+            <div class="row">
+                <div class="image"><img src="images/tutorial-setting1.jpg" alt="设置1"></div>
+                <div class="image"><img src="images/tutorial-setting2.jpg" alt="设置2"></div>
+                <div class="image"><img src="images/tutorial-setting3.jpg" alt="设置3"></div>
+            </div>
+            <p style="text-align:center; opacity:0.7;">依次需要调整的三处重要设置（采样率、声道、录音模式等）</p>
+        
+            <!-- 5. 选择录音方式 -->
+            <div class="row">
+                <div class="text">
+                    <p><strong>5. 选择录音方式</strong></p>
+                    <p>方式 <strong>1</strong>：每录完一条自动停止，手动点击下一条（适合新手）。<br>
+                    方式 <strong>2</strong>：录完一条后自动跳转到下一条（适合熟练后批量录制）。</p>
+                </div>
+                <div class="image">
+                    <img src="images/tutorial-recording-mode.jpg" alt="录音方式选择">
+                </div>
+            </div>
+        
+            <!-- 6. 按键与快捷键 -->
+            <p><strong>6. 按键与快捷键</strong></p>
+            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px; margin: 10px 0;">
+                <p>🎤 开始录音/截止录音：<kbd>R</kbd></p>
+                <p>🔊 试听当前录音：<kbd>空格</kbd></p>
+                <p>💾 保存录音文件：<kbd>Ctrl</kbd> + <kbd>S</kbd></p>
+                <p>⬆️⬇️ 切换上/下一条文本：<kbd>↑</kbd> <kbd>↓</kbd> 方向键</p>
+            </div>
+        
+            <!-- 7. 录音BGM踩点 -->
+            <p><strong>7. 录音 BGM 怎么踩点？</strong></p>
+            <p>试听下方音频，感受错误与正确的区别：</p>
+            <div class="audio-compare">
+                <div class="audio-item">
+                    <div class="error-label">❌ 错误：时快时慢</div>
+                    <audio controls src="audio/bgm-wrong-timing.wav"></audio>
+                    <p style="font-size:0.9em; opacity:0.8;">节奏忽快忽慢，没有对准节拍</p>
+                </div>
+                <div class="audio-item">
+                    <div class="error-label">❌ 错误：录音杂音</div>
+                    <audio controls src="audio/bgm-wrong-noise.wav"></audio>
+                    <p style="font-size:0.9em; opacity:0.8;">录音时发出了其他声音（咳嗽、碰撞）</p>
+                </div>
+                <div class="audio-item">
+                    <div class="correct-label">✅ 正确踩点</div>
+                    <audio controls src="audio/bgm-correct.wav"></audio>
+                    <p style="font-size:0.9em; opacity:0.8;">声音干净，每个音节稳稳落在拍子上</p>
+                </div>
+            </div>
+        
+            <!-- 8. 音频展示区怎么看 -->
+            <p><strong>8. 音频展示区的三张图怎么看？</strong></p>
+            <div class="row">
+                <div class="text">
+                    <p><strong>响度图</strong>：音量包络。若“上天入地”（忽大忽小剧烈起伏），需注意控制气息或距离。</p>
+                    <p><strong>纹理图</strong>：频谱细节。若出现细竖线或杂乱亮点，通常是爆音或齿音过重。</p>
+                    <p><strong>声高图</strong>：音高曲线。同一文本条内音节应基本持平，不同文本条之间也要保持稳定。</p>
+                </div>
+                <div class="image">
+                    <img src="images/tutorial-waveforms.jpg" alt="响度、纹理、声高对比">
+                </div>
+            </div>
+            <div class="row">
+                <div class="image">
+                    <img src="images/tutorial-bad-waveform.jpg" alt="不好的波形示例">
+                </div>
+                <div class="text">
+                    <p>⚠️ 左图是典型的不良示例：<strong>响度图剧烈起伏</strong>，<strong>纹理图出现多条细竖线（爆音）</strong>。</p>
+                </div>
+            </div>
+        
+            <!-- 9. 常见问题 Q&A -->
+            <p><strong>9. 常见问题解答</strong></p>
+            <div class="qa-container">
+                <!-- 第一个问题 -->
+                <div class="qa-item q">
+                    <div class="qa-avatar">😕</div>
+                    <div class="qa-bubble">
+                        <strong>Q：按 R 键怎么是打字，而不是录音？</strong>
+                        <img src="images/qa-typing-instead.jpg" alt="按R键出现打字">
+                    </div>
+                </div>
+                <div class="qa-item a">
+                    <div class="qa-avatar">💡</div>
+                    <div class="qa-bubble">
+                        <strong>A：</strong>请切换到<strong>英文输入法模式</strong>（按 Shift 或 Win+空格），确保输入法图标显示“ENG”。Oremo 的快捷键只在英文模式下生效。
+                        <img src="images/qa-english-mode.jpg" alt="切换英文输入法">
+                    </div>
+                </div>
+                <!-- 可以继续添加更多Q&A，复制上面的 q 和 a 块即可 -->
+            </div>
         </div>
-
         <!-- 第三章 -->
         <div id="ch3" class="chapter ch3" style="--highlight-color: #87cefa;">
             <h2>⚙️ 第三步：参数调整</h2>
