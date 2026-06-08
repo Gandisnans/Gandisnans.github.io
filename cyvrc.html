@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyVRC / C-yVRC 拆音方案 </title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 12px 25px;
+            margin-bottom: 30px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .home-link {
+            color: #ffb7c5;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        .menu-icon {
+            font-size: 1.8em;
+            color: #ffb7c5;
+            text-decoration: none;
+            line-height: 1;
+            transition: 0.2s;
+        }
+        .menu-icon:hover { color: #fff; text-shadow: 0 0 8px #ffb7c5; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffb7c5;
+            font-size: 2.5em;
+            margin: 0 0 10px;
+            text-shadow: 0 0 20px rgba(255,183,197,0.5);
+        }
+        .subtitle {
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+
+        /* 卡片容器 */
+        .card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        /* 表格样式 */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+            min-width: 600px;
+        }
+        th {
+            background: rgba(255,140,179,0.15);
+            color: #ffb7c5;
+            font-weight: bold;
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 2px solid rgba(255,140,179,0.3);
+        }
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            vertical-align: top;
+        }
+        tr:hover td {
+            background: rgba(255,255,255,0.03);
+        }
+
+        p {
+            line-height: 1.8;
+            margin: 10px 0;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 25px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+
+        /* 强调色块 */
+        .note {
+            background: rgba(255,140,179,0.08);
+            border-left: 3px solid #ff8cb3;
+            padding: 12px 18px;
+            border-radius: 0 10px 10px 0;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href=" " class="home-link">首页</a >
+        <a href="directory.html" class="menu-icon">☰</a >
+    </nav>
+
+    <div class="container">
+        <h1>📐 CyVRC / C-yVRC 拆音方案</h1>
+        <p class="subtitle">可能是提出者：二项式顺铂 与 LJG 与 敶凌瀚</p >
+
+        <div class="card">
+            <p>将一个汉语音节拆成3个部分：<strong>Cy部</strong>、<strong>V部</strong>、<strong>R部</strong></p >
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>V部【元音表示】</th>
+                            <th>可能的对应汉语拼音</th>
+                            <th>R部【结音表示】</th>
+                            <th>可能的对应汉语拼音</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>a</td><td>a/ai/an</td><td>n</td><td>-n/-ng</td></tr>
+                        <tr><td>ah</td><td>ao/ang</td><td>i</td><td>-i</td></tr>
+                        <tr><td>e</td><td>e/en/eng/un=u+e+n</td><td>u</td><td>-u</td></tr>
+                        <tr><td>eh</td><td>ei/ie/ve/van/ian/ui=u+eh+i</td><td>Cy部【辅介部表示】如“l”</td><td>可能的对应汉语拼音</td></tr>
+                        <tr><td>i</td><td>i/in/ing</td><td>l</td><td>la/le/lou…</td></tr>
+                        <tr><td>u</td><td>u/ao/un</td><td>ly</td><td>li/lie/lian…</td></tr>
+                        <tr><td>o</td><td>o/ong/iu=i+o+u</td><td>lw</td><td>luo/luan…</td></tr>
+                        <tr><td>v</td><td>v/ve</td><td>lv</td><td>lv/lve/lvan…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>特色：</strong>Cy部 zh/ch/sh 与 j/q/x 合并，在录音中实际是发 zh/ch/sh 音，但为了简化用 j/q/x 表示。</p >
+            <p>去除了 zhi 中 ir、zi 中 ih 的韵母，改为零元音。</p >
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cy部【辅介部表示】</th>
+                            <th>可能的对应汉语拼音</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>j</td><td>zhe/zhao</td></tr>
+                        <tr><td>jy</td><td>jie/jian</td></tr>
+                        <tr><td>jw</td><td>zhuo/zhun</td></tr>
+                        <tr><td>jv</td><td>jue/juan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>按这个分，我们可以把汉语音节内拆，有哪些种呢？</p >
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>类型</th><th>实例</th><th>类型</th><th>实例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>V</td><td>a⇒a</td><td>CyV</td><td>qie⇒qy eh</td></tr>
+                        <tr><td>VR</td><td>ang⇒ah n</td><td>CyVR</td><td>qiu⇒qy o u</td></tr>
+                        <tr><td>C0</td><td>zhi⇒j</td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>那我们实际上要制作多少种连续音录制呢？除了 VR/yV，还有这些：</p >
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>可能开始音可能结束音</th><th>Cy</th><th>V</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>V</th><td>V Cy</td><td>V V</td></tr>
+                        <tr><th>R</th><td>R Cy</td><td>R V</td></tr>
+                        <tr><th>C0</th><td>C0 Cy</td><td>C0 Cy</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>y 一定包含于 V，R 中只包含 V 中的 i、u 和 n，忽略无元音，就能化简得：</p >
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>可能开始音可能结束音</th><th>Cy</th><th>V</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>V</th><td>V Cy</td><td>V V</td></tr>
+                        <tr><th>n</th><td>n Cy</td><td>n V</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>总的就是：<strong>VV / Vn / nV / nCy / VCy</strong></p >
+            <p>n 与 V 无异！</p >
+            <p class="note"><strong>结论：</strong>VV / VCy 足矣！<br>这就是 <strong>CyVRC</strong>！</p >
+
+            <hr>
+
+            <p>接着是 <strong>C-yVRC</strong>，则运用了 Cy 部 zh/ch/sh 与 j/q/x 合并。借助高超录音或标注技术，可以 Cy 断开也连贯！</p >
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>类型</th><th>实例</th><th>类型</th><th>实例</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>V</td><td>a⇒a</td><td>C-yV</td><td>qie⇒q-y eh</td></tr>
+                        <tr><td>VR</td><td>ang⇒ah n</td><td>C-yVR</td><td>qiu⇒q-y o u</td></tr>
+                        <tr><td>C0</td><td>zhi⇒j</td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>只需录制：<strong>VR / Cy / yV</strong>，那音节间：</p >
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>可能开始音可能结束音</th><th>C</th><th>V</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>V</th><td>V C</td><td>V V</td></tr>
+                        <tr><th>R</th><td>R C</td><td>R V</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>总的，只需录制：<strong>VC / VV / nV / nC / Vn</strong></p >
+            <p>再化简：<strong>VC / VV</strong>！</p >
+            <p class="note">当然！可能做出来成品反而不行，所以等我做好 oto/list/lib 再看吧！</p >
+        </div>
+
+        <div class="footer">© 2026 二项式顺铂 </div>
+    </div>
+</body>
+</html>
