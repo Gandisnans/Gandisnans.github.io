@@ -258,6 +258,11 @@
             cursor: pointer;
             margin-top: 15px;
         }
+        /* 临时禁用按钮点击 */
+        .disable-clicks {
+            pointer-events: none;
+            opacity: 0.9;
+        }
         @media (max-width: 600px) {
             .option-btn { width: 110px; font-size: 1rem; padding: 10px; }
             .question-text { font-size: 1.2rem; }
@@ -280,8 +285,8 @@
             <select id="builtinSelect">
                 <option value="">-- 内置词库 --</option>
                 <option value="unit1.txt">盎格鲁撒克逊前缀-1 (unit1.txt)</option>
-                <option value="unit2.txt">盎格鲁撒克逊前缀-2 (unit2.txt)</option>
-                <option value="unit3.txt">拉丁语前缀-1 (unit3.txt)</option>
+                <option value="words/ielts.txt">雅思词库 (ielts.txt)</option>
+                <option value="words/cet4.txt">四级词库 (cet4.txt)</option>
             </select>
             <button class="action" id="loadBuiltinBtn">📥 加载选中</button>
             <label class="file-label">
@@ -343,10 +348,9 @@
     let waitingForRemember = false;
     let currentLibKey = "default";
     let currentLibName = "未加载";
-    let isWaitingForErrorContinue = false;  // 错误窗口显示时禁止答题
-    let errorContinueResolver = null;       // 用于等待继续
+    let isWaitingForErrorContinue = false;
+    let nextQuestionTimer = null;
 
-    // DOM 元素
     const btnUp = document.getElementById('btnUp');
     const btnDown = document.getElementById('btnDown');
     const btnLeft = document.getElementById('btnLeft');
@@ -362,30 +366,29 @@
         document.getElementById('currentLibName').innerText = currentLibName;
     }
 
-    // 连对内部脉冲（不溢出背景）
     function triggerComboEffect() {
         gamePanel.classList.add('combo-pulse');
         setTimeout(() => gamePanel.classList.remove('combo-pulse'), 500);
     }
 
-    // 正确时题目区域轻微闪绿
     function triggerCorrectAreaEffect() {
         questionArea.classList.add('correct-pulse');
         setTimeout(() => questionArea.classList.remove('correct-pulse'), 300);
     }
 
-    // 重置按钮样式
     function resetButtonsStyle() {
         const btns = [btnUp, btnDown, btnLeft, btnRight];
         btns.forEach(btn => {
             btn.classList.remove('wrong-highlight', 'correct-highlight', 'disabled-btn');
             btn.disabled = false;
+            btn.style.pointerEvents = '';
         });
     }
 
-    // 针对题型7禁用左右
+    // 根据题型禁用左右按钮 (题型6 判断正误 和 题型7 记得吗)
     function setRememberModeButtons() {
-        if (waitingForRemember && currentQuestion && currentQuestion.type === 7) {
+        const isTwoOption = (currentQuestion && (currentQuestion.type === 6 || currentQuestion.type === 7));
+        if (isTwoOption) {
             btnLeft.disabled = true;
             btnRight.disabled = true;
             btnLeft.classList.add('disabled-btn');
@@ -398,11 +401,27 @@
         }
     }
 
-    // 显示释义大窗口（阻塞答题）
-    function showMeaningOverlay(wordObj, userSelectedIdx, correctIdx) {
+    // 临时禁用所有答题按钮（防误触）
+    function disableAllButtons(disabled = true) {
+        const btns = [btnUp, btnDown, btnLeft, btnRight];
+        btns.forEach(btn => {
+            if (disabled) {
+                btn.disabled = true;
+                btn.style.pointerEvents = 'none';
+            } else {
+                btn.disabled = false;
+                btn.style.pointerEvents = '';
+                // 重新应用题型限制
+                setRememberModeButtons();
+            }
+        });
+    }
+
+    // 显示释义大窗口（阻塞答题，关闭后延迟恢复）
+    function showMeaningOverlay(wordObj) {
         return new Promise((resolve) => {
             isWaitingForErrorContinue = true;
-            // 构建窗口内容
+            disableAllButtons(true); // 禁用所有按钮
             const overlay = document.createElement('div');
             overlay.className = 'error-overlay';
             let extraHtml = '';
@@ -427,11 +446,14 @@
             const continueBtn = overlay.querySelector('#continueBtn');
             const closeOverlay = () => {
                 overlay.remove();
-                isWaitingForErrorContinue = false;
-                resolve();
+                // 延迟恢复按钮，避免点击继续时误触下方选项
+                setTimeout(() => {
+                    isWaitingForErrorContinue = false;
+                    disableAllButtons(false);
+                    resolve();
+                }, 200);
             };
             continueBtn.onclick = closeOverlay;
-            // 任意按键关闭
             const keyHandler = (e) => {
                 closeOverlay();
                 document.removeEventListener('keydown', keyHandler);
@@ -544,7 +566,7 @@
         return wordsArr;
     }
 
-    // 混淆借用
+    // 混淆借用（与原相同）
     function getRandomOtherField(excludeIdx, field) {
         if (words.length <= 1) return "";
         let idx = excludeIdx;
@@ -578,7 +600,6 @@
         return base.slice(0, need);
     }
 
-    // 生成题目（与原相同，略作调整）
     function generateQuestion(word, wordIdx) {
         const type = Math.floor(Math.random() * 8) + 1;
         let questionText = "", options = [], correctIdx = -1;
@@ -671,7 +692,7 @@
     }
 
     async function nextQuestion() {
-        // 重置高亮和禁用
+        if (nextQuestionTimer) clearTimeout(nextQuestionTimer);
         resetButtonsStyle();
         if (words.length === 0) {
             document.getElementById('questionText').innerText = "请先加载词库";
@@ -700,24 +721,23 @@
         updateStatsUI();
     }
 
-    // 核心答题逻辑（使用 keyup 或 click）
     async function handleAnswer(selectedIdx) {
         if (isWaitingForErrorContinue) return;
         if (!currentQuestion) return;
 
-        // 题型7拦截无效按键
-        if (waitingForRemember && currentQuestion.type === 7 && (selectedIdx === 2 || selectedIdx === 3)) {
+        // 题型6或7时，禁用左右键（额外拦截）
+        if ((currentQuestion.type === 6 || currentQuestion.type === 7) && (selectedIdx === 2 || selectedIdx === 3)) {
             return;
         }
 
-        // 按钮动画（仅视觉）
         const btns = [btnUp, btnDown, btnLeft, btnRight];
         if (btns[selectedIdx]) {
             btns[selectedIdx].classList.add('btn-press');
             setTimeout(() => btns[selectedIdx].classList.remove('btn-press'), 100);
         }
 
-        if (waitingForRemember && currentQuestion.type === 7) {
+        // 题型7：记得吗
+        if (currentQuestion.type === 7) {
             let isRemember = (selectedIdx === 0);
             let wordObj = words[currentWordIndex];
             if (isRemember) {
@@ -729,35 +749,40 @@
                 document.getElementById('feedbackMsg').innerHTML = "✅ 很棒！ +5分";
                 triggerCorrectAreaEffect();
                 if (currentStreak % 5 === 0) triggerComboEffect();
+                saveMastery();
+                updateStatsUI();
+                // 答对后延迟0.6秒进入下一题
+                nextQuestionTimer = setTimeout(() => nextQuestion(), 600);
             } else {
                 currentStreak = 0;
                 wordObj.mastery = Math.max(0, (wordObj.mastery || 0) - 1);
                 if (wrongList.indexOf(currentWordIndex) === -1) wrongList.push(currentWordIndex);
                 document.getElementById('feedbackMsg').innerHTML = "❌ 再记一次！ 加入错题本";
-                // 显示释义大窗口
-                await showMeaningOverlay(wordObj, selectedIdx, -1);
+                saveMastery();
+                updateStatsUI();
+                await showMeaningOverlay(wordObj);
+                await nextQuestion();
             }
-            saveMastery();
-            updateStatsUI();
-            await nextQuestion();
             return;
         }
 
+        // 普通题型（包括题型6）
         let isCorrect = (selectedIdx === currentQuestion.correctIdx);
         let wordObj = words[currentWordIndex];
         resetButtonsStyle();
 
         if (!isCorrect) {
-            // 高亮错误和正确按钮
             btns[selectedIdx].classList.add('wrong-highlight');
             btns[currentQuestion.correctIdx].classList.add('correct-highlight');
-            // 显示释义大窗口
-            await showMeaningOverlay(wordObj, selectedIdx, currentQuestion.correctIdx);
+            await showMeaningOverlay(wordObj);
             // 更新数据
             currentStreak = 0;
             wordObj.mastery = Math.max(0, (wordObj.mastery || 0) - 1);
             if (wrongList.indexOf(currentWordIndex) === -1) wrongList.push(currentWordIndex);
             document.getElementById('feedbackMsg').innerHTML = `❌ 错误！ 正确答案: ${currentQuestion.options[currentQuestion.correctIdx]} 连胜中断`;
+            saveMastery();
+            updateStatsUI();
+            await nextQuestion();
         } else {
             btns[selectedIdx].classList.add('correct-highlight');
             triggerCorrectAreaEffect();
@@ -768,11 +793,11 @@
             if (idx !== -1) wrongList.splice(idx,1);
             document.getElementById('feedbackMsg').innerHTML = `🎉 正确！ +10分 连胜${currentStreak}`;
             if (currentStreak % 5 === 0) triggerComboEffect();
+            saveMastery();
+            updateStatsUI();
+            // 答对后等待0.6秒再进入下一题
+            nextQuestionTimer = setTimeout(() => nextQuestion(), 600);
         }
-        saveMastery();
-        updateStatsUI();
-        // 答对后直接下一题（无延迟，因为没有了flash）
-        await nextQuestion();
     }
 
     // ----- 加载词库 -----
@@ -811,7 +836,6 @@
         reader.readAsText(file, "UTF-8");
     }
 
-    // 熟练度模态框
     function showMasteryModal() {
         const container = document.getElementById('masteryListContainer');
         container.innerHTML = '<div class="mastery-header"><span>单词</span><span>熟练度(0-10)</span></div>';
@@ -835,7 +859,6 @@
         };
     }
 
-    // 事件绑定（使用 keyup 避免长按连续）
     function bindEvents() {
         btnUp.onclick = () => handleAnswer(0);
         btnDown.onclick = () => handleAnswer(1);
@@ -875,7 +898,7 @@
 
     function initSample() {
         const sample = [
-            { word:"apple", meaning:"苹果", partOfSpeech:"名词", confusionMeanings:["萍果","平果"], confusionWords:["aple","appel"], irregularForms:"过去式:ate", collocationPrep:"of", collocationPhrase:"an apple of discord", sentenceCloze:"eat _____ apple|an", trueFalseStatement:"Apple is fruit|true" },
+            { word:"apple", meaning:"苹果", partOfSpeech:"名词", confusionMeanings:["萍果","平果"], confusionWords:["aple","appel"], collocationPrep:"of", collocationPhrase:"an apple of discord", sentenceCloze:"eat _____ apple|an", trueFalseStatement:"Apple is fruit|true" },
             { word:"run", meaning:"跑", partOfSpeech:"动词", confusionMeanings:["走","跳"], confusionWords:["ran","rum"], irregularForms:"过去式:ran", collocationPrep:"to", collocationPhrase:"run to school", sentenceCloze:"I like to _____|run", trueFalseStatement:"Run is noun|false" }
         ];
         setWords(sample, "sample", "示例词库");
