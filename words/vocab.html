@@ -18,7 +18,36 @@
             font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             margin: 0;
             padding: 20px;
+            position: relative;
         }
+        /* 全屏特效层 */
+        .effect-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            background: radial-gradient(circle, transparent, transparent);
+            transition: 0.2s;
+        }
+        .flash {
+            background: radial-gradient(circle, rgba(255,215,0,0.6) 0%, rgba(255,255,255,0) 80%);
+            opacity: 1;
+            animation: fadeOut 0.6s ease-out;
+        }
+        .combo-flash {
+            background: radial-gradient(circle, rgba(255,100,0,0.8) 0%, rgba(255,255,0,0.3) 70%, transparent);
+            animation: comboPulse 0.8s ease-out;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes comboPulse {
+            0% { transform: scale(0.9); opacity: 1; background: radial-gradient(circle, gold, orange);}
+            100% { transform: scale(1.2); opacity: 0; background: radial-gradient(circle, yellow, transparent);}
+        }
+
         .game-container {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(8px);
@@ -58,6 +87,7 @@
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 5px 0 #d9c8a5;
+            transition: all 0.2s;
         }
         .question-text {
             font-size: 1.7rem;
@@ -95,6 +125,28 @@
             transform: translateY(3px);
             box-shadow: 0 2px 0 #b97f10;
         }
+        .option-btn.disabled-btn {
+            opacity: 0.5;
+            background: #aaa;
+            box-shadow: 0 2px 0 #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .option-btn.wrong-highlight {
+            background: #ff6b6b;
+            box-shadow: 0 0 8px red;
+        }
+        .option-btn.correct-highlight {
+            background: #6bff6b;
+            box-shadow: 0 0 8px green;
+            animation: correctPulse 0.3s ease;
+        }
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); background: #8cff8c; }
+            100% { transform: scale(1); }
+        }
+
         .direction-hint {
             font-size: 0.7rem;
             background: #f3e5c0;
@@ -108,6 +160,14 @@
             font-weight: bold;
             margin: 12px 0;
             min-height: 3rem;
+        }
+        .extra-info {
+            background: #ede5d0;
+            border-radius: 1.5rem;
+            padding: 8px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            color: #2c3e2b;
         }
         .controls {
             display: flex;
@@ -136,34 +196,6 @@
             font-size: 0.85rem;
             border: none;
         }
-        .mastery-panel {
-            background: #f0ebdb;
-            border-radius: 2rem;
-            margin: 15px 0 5px;
-            padding: 8px;
-            font-size: 0.75rem;
-            text-align: left;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .mastery-header {
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #ccc;
-            padding: 5px 10px;
-        }
-        .mastery-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 10px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.8rem;
-        }
-        .mastery-row input {
-            width: 50px;
-            text-align: center;
-        }
         .modal {
             display: none;
             position: fixed;
@@ -187,6 +219,20 @@
             .option-btn { width: 110px; font-size: 1rem; padding: 10px; }
             .question-text { font-size: 1.2rem; }
         }
+        /* 按下动效 */
+        .btn-press {
+            transform: scale(0.92) translateY(2px);
+            transition: 0.05s;
+        }
+        .slide-effect {
+            animation: slideShake 0.2s ease;
+        }
+        @keyframes slideShake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
     </style>
 </head>
 <body>
@@ -204,9 +250,9 @@
         <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
             <select id="builtinSelect">
                 <option value="">-- 内置词库 --</option>
-                <option value="words/basic.txt">基础词库 (basic.txt)</option>
-                <option value="words/ielts.txt">雅思词库 (ielts.txt)</option>
-                <option value="words/cet4.txt">四级词库 (cet4.txt)</option>
+                <option value="words/basic.txt">盎格鲁撒克逊前缀-1 (unit1.txt)</option>
+                <option value="words/ielts.txt">盎格鲁撒克逊前缀-2 (unit2.txt)</option>
+                <option value="words/cet4.txt">拉丁语前缀-1 (unit3.txt)</option>
             </select>
             <button class="action" id="loadBuiltinBtn">📥 加载选中</button>
             <label class="file-label">
@@ -241,6 +287,7 @@
         </div>
 
         <div class="feedback" id="feedbackMsg"></div>
+        <div class="extra-info" id="extraInfo"></div>
         <footer style="font-size:0.7rem; margin-top: 10px;">按 W/A/S/D 或点击按钮 | 题型随机8种</footer>
     </div>
 </div>
@@ -259,17 +306,53 @@
 
 <script>
     // ------------------- 全局变量 -------------------
-    let words = [];              // 当前词库对象数组
-    let wrongList = [];         // 错题索引
+    let words = [];
+    let wrongList = [];
     let currentStreak = 0;
     let totalScore = 0;
     let currentWordIndex = -1;
-    let currentQuestion = null;  // { options, correctIdx, type, wordIndex }
+    let currentQuestion = null;
     let waitingForRemember = false;
-    let currentLibKey = "default";   // 词库标识（文件名或上传标记）
+    let currentLibKey = "default";
     let currentLibName = "未加载";
+    let pendingTimeout = null; // 用于延迟跳转
 
-    // 熟练度存储：localStorage 键名 mastery_${libKey}
+    // 获取元素
+    const btnUp = document.getElementById('btnUp');
+    const btnDown = document.getElementById('btnDown');
+    const btnLeft = document.getElementById('btnLeft');
+    const btnRight = document.getElementById('btnRight');
+    const extraInfoDiv = document.getElementById('extraInfo');
+
+    // 特效层
+    let overlay = document.createElement('div');
+    overlay.className = 'effect-overlay';
+    document.body.appendChild(overlay);
+
+    // 辅助函数：播放全屏动效
+    function playFlashEffect(isCombo = false) {
+        overlay.classList.remove('flash', 'combo-flash');
+        void overlay.offsetWidth; // 强制重绘
+        if (isCombo) overlay.classList.add('combo-flash');
+        else overlay.classList.add('flash');
+        setTimeout(() => overlay.classList.remove('flash', 'combo-flash'), 800);
+    }
+
+    // 按钮按下动效
+    function animateButton(btn) {
+        if (!btn || btn.disabled) return;
+        btn.classList.add('btn-press');
+        setTimeout(() => btn.classList.remove('btn-press'), 100);
+    }
+
+    // 滑动动效（按键方向侧滑动感觉）简单抖动屏幕
+    function slideEffect(direction) {
+        const panel = document.querySelector('.game-panel');
+        panel.classList.add('slide-effect');
+        setTimeout(() => panel.classList.remove('slide-effect'), 200);
+    }
+
+    // 熟练度存储
     function getMasteryKey() { return `mastery_${currentLibKey}`; }
     function loadMastery() {
         const key = getMasteryKey();
@@ -291,7 +374,6 @@
         words.forEach(w => { obj[w.word] = w.mastery; });
         localStorage.setItem(getMasteryKey(), JSON.stringify(obj));
     }
-    // 导出熟练度
     function exportMastery() {
         const data = {};
         words.forEach(w => { data[w.word] = w.mastery; });
@@ -303,7 +385,6 @@
         a.click();
         URL.revokeObjectURL(url);
     }
-    // 导入熟练度（合并）
     function importMastery(jsonContent) {
         try {
             const imported = JSON.parse(jsonContent);
@@ -316,15 +397,42 @@
         } catch(e) { alert("文件格式错误"); }
     }
 
-    // UI 更新
     function updateStatsUI() {
         document.getElementById('score').innerText = totalScore;
         document.getElementById('streak').innerText = currentStreak;
         document.getElementById('wrongCount').innerText = wrongList.length;
         document.getElementById('currentLibName').innerText = currentLibName;
+        // 连对特效阈值
+        if (currentStreak >= 5 && currentStreak % 5 === 0) {
+            playFlashEffect(true); // 每5连触发一次特效
+        }
     }
 
-    // ------------------- 解析词库（同原版）-------------------
+    // 清除高亮和禁用样式
+    function resetButtonsStyle() {
+        const btns = [btnUp, btnDown, btnLeft, btnRight];
+        btns.forEach(btn => {
+            btn.classList.remove('wrong-highlight', 'correct-highlight', 'disabled-btn');
+            btn.disabled = false;
+        });
+    }
+
+    // 根据题型7禁用左右按钮
+    function setRememberModeButtons() {
+        if (waitingForRemember && currentQuestion && currentQuestion.type === 7) {
+            btnLeft.disabled = true;
+            btnRight.disabled = true;
+            btnLeft.classList.add('disabled-btn');
+            btnRight.classList.add('disabled-btn');
+        } else {
+            btnLeft.disabled = false;
+            btnRight.disabled = false;
+            btnLeft.classList.remove('disabled-btn');
+            btnRight.classList.remove('disabled-btn');
+        }
+    }
+
+    // ------------------- 解析词库 -------------------
     function parseWordTxt(content) {
         const lines = content.split(/\r?\n/);
         let wordsArr = [];
@@ -375,7 +483,7 @@
         return wordsArr;
     }
 
-    // 辅助：混淆借用
+    // 混淆借用函数 (保持不变)
     function getRandomOtherField(excludeIdx, field) {
         if (words.length <= 1) return "";
         let idx = excludeIdx;
@@ -409,7 +517,7 @@
         return base.slice(0, need);
     }
 
-    // 随机生成题目（8种）
+    // 生成题目函数 (与原相同)
     function generateQuestion(word, wordIdx) {
         const type = Math.floor(Math.random() * 8) + 1;
         let questionText = "", options = [], correctIdx = -1;
@@ -502,6 +610,8 @@
     }
 
     function nextQuestion() {
+        if (pendingTimeout) clearTimeout(pendingTimeout);
+        resetButtonsStyle();
         if (words.length === 0) {
             document.getElementById('questionText').innerText = "请先加载词库";
             return;
@@ -519,17 +629,43 @@
         waitingForRemember = (currentQuestion.type === 7);
         let opts = currentQuestion.options;
         while (opts.length < 4) opts.push("");
-        document.getElementById('btnUp').innerHTML = `⬆️ 上<br>${opts[0]}<span class="direction-hint">W</span>`;
-        document.getElementById('btnDown').innerHTML = `⬇️ 下<br>${opts[1]}<span class="direction-hint">S</span>`;
-        document.getElementById('btnLeft').innerHTML = `⬅️ 左<br>${opts[2]}<span class="direction-hint">A</span>`;
-        document.getElementById('btnRight').innerHTML = `➡️ 右<br>${opts[3]}<span class="direction-hint">D</span>`;
+        btnUp.innerHTML = `⬆️ 上<br>${opts[0]}<span class="direction-hint">W</span>`;
+        btnDown.innerHTML = `⬇️ 下<br>${opts[1]}<span class="direction-hint">S</span>`;
+        btnLeft.innerHTML = `⬅️ 左<br>${opts[2]}<span class="direction-hint">A</span>`;
+        btnRight.innerHTML = `➡️ 右<br>${opts[3]}<span class="direction-hint">D</span>`;
         document.getElementById('questionText').innerHTML = currentQuestion.questionText;
         document.getElementById('feedbackMsg').innerHTML = "";
+        extraInfoDiv.innerHTML = "";
+        setRememberModeButtons();
         updateStatsUI();
+    }
+
+    // 显示单词释义（内置）
+    function showWordMeaning(wordObj) {
+        let meaningHtml = `<strong>📖 单词释义：</strong> ${wordObj.word} — ${wordObj.meaning}<br>`;
+        if (wordObj.partOfSpeech) meaningHtml += `词性：${wordObj.partOfSpeech}<br>`;
+        if (wordObj.sentenceCloze) meaningHtml += `例句：${wordObj.sentenceCloze.replace('_____', wordObj.sentenceAnswer || '???')}<br>`;
+        extraInfoDiv.innerHTML = meaningHtml;
     }
 
     function handleAnswer(selectedIdx) {
         if (!currentQuestion) return;
+        // 清除之前的延迟跳转
+        if (pendingTimeout) clearTimeout(pendingTimeout);
+        // 如果是题型7且左右键被禁用，额外拦截键盘A/D
+        if (waitingForRemember && currentQuestion.type === 7 && (selectedIdx === 2 || selectedIdx === 3)) {
+            return; // 左右键无效
+        }
+
+        // 获取当前按下的按钮对象以增加动效
+        let btn = null;
+        if (selectedIdx === 0) btn = btnUp;
+        else if (selectedIdx === 1) btn = btnDown;
+        else if (selectedIdx === 2) btn = btnLeft;
+        else if (selectedIdx === 3) btn = btnRight;
+        if (btn) animateButton(btn);
+        slideEffect(); // 屏幕滑动效果
+
         if (waitingForRemember && currentQuestion.type === 7) {
             let isRemember = (selectedIdx === 0);
             let wordObj = words[currentWordIndex];
@@ -540,19 +676,40 @@
                 let pos = wrongList.indexOf(currentWordIndex);
                 if (pos !== -1) wrongList.splice(pos,1);
                 document.getElementById('feedbackMsg').innerHTML = "✅ 很棒！ +5分";
+                playFlashEffect(false); // 简单答对闪效
             } else {
                 currentStreak = 0;
                 wordObj.mastery = Math.max(0, (wordObj.mastery || 0) - 1);
                 if (wrongList.indexOf(currentWordIndex) === -1) wrongList.push(currentWordIndex);
                 document.getElementById('feedbackMsg').innerHTML = "❌ 再记一次！ 加入错题本";
+                showWordMeaning(wordObj);
+                // 无额外颜色标注（因为只有两个按钮）
             }
             saveMastery();
             updateStatsUI();
-            setTimeout(() => nextQuestion(), 600);
+            pendingTimeout = setTimeout(() => nextQuestion(), 800);
             return;
         }
+
         let isCorrect = (selectedIdx === currentQuestion.correctIdx);
         let wordObj = words[currentWordIndex];
+        // 高亮处理：错误时标红所选按钮，标绿正确按钮
+        resetButtonsStyle();
+        const btns = [btnUp, btnDown, btnLeft, btnRight];
+        if (!isCorrect) {
+            // 错误答案按钮变红
+            btns[selectedIdx].classList.add('wrong-highlight');
+            // 正确答案按钮变绿
+            btns[currentQuestion.correctIdx].classList.add('correct-highlight');
+            // 显示释义
+            showWordMeaning(wordObj);
+        } else {
+            // 答对时给所有按钮正确闪一下？仅正确按钮绿闪
+            btns[selectedIdx].classList.add('correct-highlight');
+            playFlashEffect(false);
+            setTimeout(() => btns[selectedIdx].classList.remove('correct-highlight'), 500);
+        }
+
         if (isCorrect) {
             totalScore += 10;
             currentStreak++;
@@ -569,20 +726,23 @@
         }
         saveMastery();
         updateStatsUI();
-        setTimeout(() => nextQuestion(), 600);
+
+        // 延时: 答错1500ms，答对600ms
+        let delay = isCorrect ? 600 : 1500;
+        pendingTimeout = setTimeout(() => {
+            nextQuestion();
+        }, delay);
     }
 
-    // ------------------- 加载词库 -------------------
+    // ---------- 词库加载 ----------
     function setWords(newWords, libIdentifier, displayName) {
         if (!newWords.length) return alert("词库为空");
         words = newWords;
         currentLibKey = libIdentifier;
         currentLibName = displayName;
-        // 重置得分连胜错题本
         totalScore = 0;
         currentStreak = 0;
         wrongList = [];
-        // 从 localStorage 读取熟练度
         loadMastery();
         updateStatsUI();
         nextQuestion();
@@ -610,7 +770,7 @@
         reader.readAsText(file, "UTF-8");
     }
 
-    // 熟练度表格模态框
+    // 熟练度模态框
     function showMasteryModal() {
         const container = document.getElementById('masteryListContainer');
         container.innerHTML = '<div class="mastery-header"><span>单词</span><span>熟练度(0-10)</span></div>';
@@ -634,18 +794,17 @@
         };
     }
 
-    // 事件绑定
     function bindEvents() {
-        document.getElementById('btnUp').onclick = () => handleAnswer(0);
-        document.getElementById('btnDown').onclick = () => handleAnswer(1);
-        document.getElementById('btnLeft').onclick = () => handleAnswer(2);
-        document.getElementById('btnRight').onclick = () => handleAnswer(3);
+        btnUp.onclick = () => handleAnswer(0);
+        btnDown.onclick = () => handleAnswer(1);
+        btnLeft.onclick = () => handleAnswer(2);
+        btnRight.onclick = () => handleAnswer(3);
         document.addEventListener('keydown', (e) => {
             const k = e.key.toLowerCase();
-            if (k === 'w') { e.preventDefault(); handleAnswer(0); }
-            else if (k === 's') { e.preventDefault(); handleAnswer(1); }
-            else if (k === 'a') { e.preventDefault(); handleAnswer(2); }
-            else if (k === 'd') { e.preventDefault(); handleAnswer(3); }
+            if (k === 'w') { e.preventDefault(); handleAnswer(0); animateButton(btnUp); slideEffect(); }
+            else if (k === 's') { e.preventDefault(); handleAnswer(1); animateButton(btnDown); slideEffect(); }
+            else if (k === 'a') { e.preventDefault(); handleAnswer(2); animateButton(btnLeft); slideEffect(); }
+            else if (k === 'd') { e.preventDefault(); handleAnswer(3); animateButton(btnRight); slideEffect(); }
         });
         document.getElementById('loadBuiltinBtn').onclick = () => {
             const sel = document.getElementById('builtinSelect').value;
@@ -672,7 +831,6 @@
         };
     }
 
-    // 初始演示词库（备用）
     function initSample() {
         const sample = [
             { word:"apple", meaning:"苹果", partOfSpeech:"名词", confusionMeanings:["萍果","平果"], confusionWords:["aple","appel"], irregularForms:"过去式:ate", collocationPrep:"of", collocationPhrase:"an apple of discord", sentenceCloze:"eat _____ apple|an", trueFalseStatement:"Apple is fruit|true" },
@@ -682,7 +840,7 @@
     }
 
     bindEvents();
-    initSample(); // 先加载示例，用户后续可手动切换
+    initSample();
 </script>
 </body>
 </html>
