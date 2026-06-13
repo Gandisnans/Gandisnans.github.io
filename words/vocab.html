@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>单词挑战 - 熟练度系统</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background: linear-gradient(145deg, #1a2a3a 0%, #0f1a24 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .game-container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            border-radius: 4rem;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .game-panel {
+            max-width: 800px;
+            width: 100%;
+            background: #fef9e8;
+            border-radius: 3rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.05), 0 10px 20px rgba(0,0,0,0.2);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin: 0 0 0.5rem 0;
+            color: #ff8c42;
+            text-shadow: 2px 2px 0 #ffe0b5;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #e9e3d5;
+            padding: 0.6rem 1.2rem;
+            border-radius: 3rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .question-area {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 0 #d9c8a5;
+        }
+        .question-text {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #2d3e50;
+            word-break: break-word;
+        }
+        .cross-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .cross-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+        }
+        .option-btn {
+            background: #ffd966;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 60px;
+            width: 150px;
+            cursor: pointer;
+            transition: 0.05s linear;
+            box-shadow: 0 5px 0 #b97f10;
+            color: #3b2a1f;
+        }
+        .option-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #b97f10;
+        }
+        .direction-hint {
+            font-size: 0.7rem;
+            background: #f3e5c0;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-top: 5px;
+        }
+        .feedback {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 12px 0;
+            min-height: 3rem;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        button.action, .file-label, .select-label {
+            background: #5d7a5c;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .select-label {
+            background: #3f6b8c;
+        }
+        select {
+            background: white;
+            border-radius: 30px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border: none;
+        }
+        .mastery-panel {
+            background: #f0ebdb;
+            border-radius: 2rem;
+            margin: 15px 0 5px;
+            padding: 8px;
+            font-size: 0.75rem;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .mastery-header {
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ccc;
+            padding: 5px 10px;
+        }
+        .mastery-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.8rem;
+        }
+        .mastery-row input {
+            width: 50px;
+            text-align: center;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fef9e8;
+            max-width: 90%;
+            width: 500px;
+            border-radius: 2rem;
+            padding: 1rem;
+            max-height: 80%;
+            overflow: auto;
+        }
+        @media (max-width: 600px) {
+            .option-btn { width: 110px; font-size: 1rem; padding: 10px; }
+            .question-text { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div class="game-panel">
+        <h1>📖 单词挑战 · 十字练</h1>
+        <div class="stats">
+            <span>🏆 总分: <span id="score">0</span></span>
+            <span>🔥 连胜: <span id="streak">0</span></span>
+            <span>📚 错题: <span id="wrongCount">0</span></span>
+            <span>📁 <span id="currentLibName">未加载</span></span>
+        </div>
+
+        <!-- 词库管理栏 -->
+        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
+            <select id="builtinSelect">
+                <option value="">-- 内置词库 --</option>
+                <option value="words/basic.txt">基础词库 (basic.txt)</option>
+                <option value="words/ielts.txt">雅思词库 (ielts.txt)</option>
+                <option value="words/cet4.txt">四级词库 (cet4.txt)</option>
+            </select>
+            <button class="action" id="loadBuiltinBtn">📥 加载选中</button>
+            <label class="file-label">
+                📂 上传词库
+                <input type="file" id="txtFileInput" accept=".txt" style="display: none;">
+            </label>
+            <button class="action" id="showMasteryBtn">📊 熟练度表</button>
+            <button class="action" id="exportMasteryBtn">💾 导出熟练度</button>
+            <label class="file-label">
+                📂 导入熟练度
+                <input type="file" id="importMasteryInput" accept=".json" style="display: none;">
+            </label>
+        </div>
+
+        <div class="question-area">
+            <div class="question-text" id="questionText">加载词库中...</div>
+            <div class="question-sub" id="questionSub"></div>
+        </div>
+
+        <!-- 十字按键区 -->
+        <div class="cross-layout">
+            <div class="cross-row">
+                <button class="option-btn" data-dir="up" id="btnUp">⬆️ 上<br><span class="direction-hint">W</span></button>
+            </div>
+            <div class="cross-row">
+                <button class="option-btn" data-dir="left" id="btnLeft">⬅️ 左<br><span class="direction-hint">A</span></button>
+                <button class="option-btn" data-dir="right" id="btnRight">➡️ 右<br><span class="direction-hint">D</span></button>
+            </div>
+            <div class="cross-row">
+                <button class="option-btn" data-dir="down" id="btnDown">⬇️ 下<br><span class="direction-hint">S</span></button>
+            </div>
+        </div>
+
+        <div class="feedback" id="feedbackMsg"></div>
+        <footer style="font-size:0.7rem; margin-top: 10px;">按 W/A/S/D 或点击按钮 | 题型随机8种</footer>
+    </div>
+</div>
+
+<!-- 熟练度模态框 -->
+<div id="masteryModal" class="modal">
+    <div class="modal-content">
+        <h3>单词熟练度表</h3>
+        <div id="masteryListContainer"></div>
+        <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+            <button id="closeMasteryModal" class="action">关闭</button>
+            <button id="saveMasteryChanges" class="action">保存修改</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ------------------- 全局变量 -------------------
+    let words = [];              // 当前词库对象数组
+    let wrongList = [];         // 错题索引
+    let currentStreak = 0;
+    let totalScore = 0;
+    let currentWordIndex = -1;
+    let currentQuestion = null;  // { options, correctIdx, type, wordIndex }
+    let waitingForRemember = false;
+    let currentLibKey = "default";   // 词库标识（文件名或上传标记）
+    let currentLibName = "未加载";
+
+    // 熟练度存储：localStorage 键名 mastery_${libKey}
+    function getMasteryKey() { return `mastery_${currentLibKey}`; }
+    function loadMastery() {
+        const key = getMasteryKey();
+        const stored = localStorage.getItem(key);
+        if (stored) {
+            try {
+                const obj = JSON.parse(stored);
+                for (let i = 0; i < words.length; i++) {
+                    if (obj[words[i].word]) words[i].mastery = obj[words[i].word];
+                    else words[i].mastery = words[i].mastery || 0;
+                }
+            } catch(e) { console.warn(e); }
+        } else {
+            words.forEach(w => w.mastery = w.mastery || 0);
+        }
+    }
+    function saveMastery() {
+        const obj = {};
+        words.forEach(w => { obj[w.word] = w.mastery; });
+        localStorage.setItem(getMasteryKey(), JSON.stringify(obj));
+    }
+    // 导出熟练度
+    function exportMastery() {
+        const data = {};
+        words.forEach(w => { data[w.word] = w.mastery; });
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `mastery_${currentLibKey}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+    // 导入熟练度（合并）
+    function importMastery(jsonContent) {
+        try {
+            const imported = JSON.parse(jsonContent);
+            for (let w of words) {
+                if (imported[w.word] !== undefined) w.mastery = imported[w.word];
+            }
+            saveMastery();
+            updateStatsUI();
+            alert("熟练度导入成功！");
+        } catch(e) { alert("文件格式错误"); }
+    }
+
+    // UI 更新
+    function updateStatsUI() {
+        document.getElementById('score').innerText = totalScore;
+        document.getElementById('streak').innerText = currentStreak;
+        document.getElementById('wrongCount').innerText = wrongList.length;
+        document.getElementById('currentLibName').innerText = currentLibName;
+    }
+
+    // ------------------- 解析词库（同原版）-------------------
+    function parseWordTxt(content) {
+        const lines = content.split(/\r?\n/);
+        let wordsArr = [];
+        let current = null;
+        let lastTag = "";
+        for (let line of lines) {
+            line = line.trim();
+            if (line === "") {
+                if (current && current.word) wordsArr.push(current);
+                current = null;
+                continue;
+            }
+            if (line.startsWith("[") && line.endsWith("]")) {
+                lastTag = line;
+                if (line === "[WORD]") current = { confusionMeanings: [], confusionWords: [] };
+                continue;
+            }
+            if (!current) continue;
+            if (lastTag === "[WORD]") current.word = line;
+            else if (lastTag === "[MEANING]") current.meaning = line;
+            else if (lastTag === "[PART_OF_SPEECH]") current.partOfSpeech = line;
+            else if (lastTag === "[CONFUSIONS_MEANING]") current.confusionMeanings = line.split('|').filter(s=>s);
+            else if (lastTag === "[CONFUSIONS_WORD]") current.confusionWords = line.split('|').filter(s=>s);
+            else if (lastTag === "[IRREGULAR_FORMS]") current.irregularForms = line;
+            else if (lastTag === "[COLLOCATION]") {
+                let parts = line.split('|');
+                for (let p of parts) {
+                    if (p.startsWith("介词:")) current.collocationPrep = p.substring(3);
+                    if (p.startsWith("搭配:")) current.collocationPhrase = p.substring(3);
+                }
+            }
+            else if (lastTag === "[SENTENCE_CLOZE]") {
+                let pipe = line.indexOf('|');
+                if (pipe !== -1) {
+                    current.sentenceCloze = line.substring(0, pipe);
+                    current.sentenceAnswer = line.substring(pipe+1);
+                }
+            }
+            else if (lastTag === "[TRUE_FALSE_STATEMENT]") {
+                let pipe = line.indexOf('|');
+                if (pipe !== -1) {
+                    current.trueFalseStatement = line.substring(0, pipe);
+                    current.trueFalseAnswer = line.substring(pipe+1) === "true";
+                }
+            }
+        }
+        if (current && current.word) wordsArr.push(current);
+        return wordsArr;
+    }
+
+    // 辅助：混淆借用
+    function getRandomOtherField(excludeIdx, field) {
+        if (words.length <= 1) return "";
+        let idx = excludeIdx;
+        while (idx === excludeIdx) idx = Math.floor(Math.random() * words.length);
+        if (field === "meaning") return words[idx].meaning;
+        if (field === "word") return words[idx].word;
+        if (field === "partOfSpeech") return words[idx].partOfSpeech || "名词";
+        if (field === "collocationPrep") return words[idx].collocationPrep || "of";
+        return "";
+    }
+    function getConfusionPool(wordObj, type, need) {
+        let base = [];
+        if (type === "meaning") base = [...(wordObj.confusionMeanings || [])];
+        else if (type === "word") base = [...(wordObj.confusionWords || [])];
+        else if (type === "partOfSpeech") {
+            for (let w of words) if (w !== wordObj && w.partOfSpeech) base.push(w.partOfSpeech);
+        }
+        while (base.length < need) {
+            let extra = "";
+            const idx = words.indexOf(wordObj);
+            if (type === "meaning") extra = getRandomOtherField(idx, "meaning");
+            else if (type === "word") extra = getRandomOtherField(idx, "word");
+            else if (type === "partOfSpeech") extra = getRandomOtherField(idx, "partOfSpeech");
+            if (extra) base.push(extra);
+            else break;
+        }
+        for (let i = base.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [base[i], base[j]] = [base[j], base[i]];
+        }
+        return base.slice(0, need);
+    }
+
+    // 随机生成题目（8种）
+    function generateQuestion(word, wordIdx) {
+        const type = Math.floor(Math.random() * 8) + 1;
+        let questionText = "", options = [], correctIdx = -1;
+        if (type === 1) {
+            questionText = `【英文选中文】<br>📖 ${word.word}`;
+            options = [word.meaning];
+            options.push(...getConfusionPool(word, "meaning", 3));
+            shuffleArray(options);
+            correctIdx = options.indexOf(word.meaning);
+        } else if (type === 2) {
+            questionText = `【中文选英文】<br>🇨🇳 ${word.meaning}`;
+            options = [word.word];
+            options.push(...getConfusionPool(word, "word", 3));
+            shuffleArray(options);
+            correctIdx = options.indexOf(word.word);
+        } else if (type === 3) {
+            if (!word.irregularForms) return generateQuestion(word, wordIdx);
+            let pairs = word.irregularForms.split('|');
+            if (!pairs.length) return generateQuestion(word, wordIdx);
+            let randomPair = pairs[Math.floor(Math.random() * pairs.length)];
+            let [formType, correctVal] = randomPair.split(':');
+            if (!correctVal) return generateQuestion(word, wordIdx);
+            questionText = `【不规则变形】<br>“${word.word}” 的 ${formType} 是？`;
+            options = [correctVal];
+            let otherForms = [];
+            for (let w of words) {
+                if (w === word) continue;
+                if (w.irregularForms) {
+                    let pp = w.irregularForms.split('|');
+                    for (let p of pp) {
+                        let val = p.split(':')[1];
+                        if (val) otherForms.push(val);
+                        if (otherForms.length >= 6) break;
+                    }
+                }
+                if (otherForms.length >= 6) break;
+            }
+            while (otherForms.length < 3) otherForms.push("ate", "ran", "gone");
+            shuffleArray(otherForms);
+            options.push(...otherForms.slice(0,3));
+            shuffleArray(options);
+            correctIdx = options.indexOf(correctVal);
+        } else if (type === 4) {
+            if (!word.collocationPrep || !word.collocationPhrase) return generateQuestion(word, wordIdx);
+            let phrase = word.collocationPhrase.replace(word.collocationPrep, "______");
+            questionText = `【固定搭配】<br>${phrase}`;
+            options = [word.collocationPrep];
+            let prepPool = ["of","to","for","with","in","on","at","by"];
+            for (let w of words) if (w.collocationPrep && w.collocationPrep !== word.collocationPrep) prepPool.push(w.collocationPrep);
+            shuffleArray(prepPool);
+            options.push(...prepPool.slice(0,3));
+            shuffleArray(options);
+            correctIdx = options.indexOf(word.collocationPrep);
+        } else if (type === 5) {
+            if (!word.sentenceCloze || !word.sentenceAnswer) return generateQuestion(word, wordIdx);
+            questionText = `【句子填空】<br>${word.sentenceCloze}`;
+            options = [word.sentenceAnswer];
+            let conf = [];
+            for (let w of words) if (w.sentenceAnswer && w.sentenceAnswer !== word.sentenceAnswer) conf.push(w.sentenceAnswer);
+            if (conf.length < 3) conf.push("a","an","the","is","are");
+            shuffleArray(conf);
+            options.push(...conf.slice(0,3));
+            shuffleArray(options);
+            correctIdx = options.indexOf(word.sentenceAnswer);
+        } else if (type === 6) {
+            if (!word.trueFalseStatement) return generateQuestion(word, wordIdx);
+            questionText = `【判断正误】<br>${word.trueFalseStatement}`;
+            options = ["正确", "错误"];
+            correctIdx = word.trueFalseAnswer ? 0 : 1;
+        } else if (type === 7) {
+            questionText = `【记得吗？】<br>📌 ${word.word}<br>✏️ ${word.meaning}`;
+            options = ["记得", "不记得"];
+            correctIdx = -1;
+        } else if (type === 8) {
+            if (!word.partOfSpeech) return generateQuestion(word, wordIdx);
+            questionText = `【选词性】<br>${word.word}`;
+            options = [word.partOfSpeech];
+            options.push(...getConfusionPool(word, "partOfSpeech", 3));
+            shuffleArray(options);
+            correctIdx = options.indexOf(word.partOfSpeech);
+        }
+        return { questionText, options, correctIdx, type, wordIndex: wordIdx };
+    }
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+    }
+
+    function nextQuestion() {
+        if (words.length === 0) {
+            document.getElementById('questionText').innerText = "请先加载词库";
+            return;
+        }
+        let idx;
+        if (wrongList.length > 0) {
+            let r = Math.floor(Math.random() * wrongList.length);
+            idx = wrongList[r];
+        } else {
+            idx = Math.floor(Math.random() * words.length);
+        }
+        currentWordIndex = idx;
+        let word = words[currentWordIndex];
+        currentQuestion = generateQuestion(word, currentWordIndex);
+        waitingForRemember = (currentQuestion.type === 7);
+        let opts = currentQuestion.options;
+        while (opts.length < 4) opts.push("");
+        document.getElementById('btnUp').innerHTML = `⬆️ 上<br>${opts[0]}<span class="direction-hint">W</span>`;
+        document.getElementById('btnDown').innerHTML = `⬇️ 下<br>${opts[1]}<span class="direction-hint">S</span>`;
+        document.getElementById('btnLeft').innerHTML = `⬅️ 左<br>${opts[2]}<span class="direction-hint">A</span>`;
+        document.getElementById('btnRight').innerHTML = `➡️ 右<br>${opts[3]}<span class="direction-hint">D</span>`;
+        document.getElementById('questionText').innerHTML = currentQuestion.questionText;
+        document.getElementById('feedbackMsg').innerHTML = "";
+        updateStatsUI();
+    }
+
+    function handleAnswer(selectedIdx) {
+        if (!currentQuestion) return;
+        if (waitingForRemember && currentQuestion.type === 7) {
+            let isRemember = (selectedIdx === 0);
+            let wordObj = words[currentWordIndex];
+            if (isRemember) {
+                totalScore += 5;
+                currentStreak++;
+                wordObj.mastery = Math.min(10, (wordObj.mastery || 0) + 1);
+                let pos = wrongList.indexOf(currentWordIndex);
+                if (pos !== -1) wrongList.splice(pos,1);
+                document.getElementById('feedbackMsg').innerHTML = "✅ 很棒！ +5分";
+            } else {
+                currentStreak = 0;
+                wordObj.mastery = Math.max(0, (wordObj.mastery || 0) - 1);
+                if (wrongList.indexOf(currentWordIndex) === -1) wrongList.push(currentWordIndex);
+                document.getElementById('feedbackMsg').innerHTML = "❌ 再记一次！ 加入错题本";
+            }
+            saveMastery();
+            updateStatsUI();
+            setTimeout(() => nextQuestion(), 600);
+            return;
+        }
+        let isCorrect = (selectedIdx === currentQuestion.correctIdx);
+        let wordObj = words[currentWordIndex];
+        if (isCorrect) {
+            totalScore += 10;
+            currentStreak++;
+            wordObj.mastery = Math.min(10, (wordObj.mastery || 0) + 1);
+            let idx = wrongList.indexOf(currentWordIndex);
+            if (idx !== -1) wrongList.splice(idx,1);
+            document.getElementById('feedbackMsg').innerHTML = `🎉 正确！ +10分 连胜${currentStreak}`;
+        } else {
+            currentStreak = 0;
+            wordObj.mastery = Math.max(0, (wordObj.mastery || 0) - 1);
+            if (wrongList.indexOf(currentWordIndex) === -1) wrongList.push(currentWordIndex);
+            let correctAns = currentQuestion.options[currentQuestion.correctIdx];
+            document.getElementById('feedbackMsg').innerHTML = `❌ 错误！ 正确答案: ${correctAns} 连胜中断`;
+        }
+        saveMastery();
+        updateStatsUI();
+        setTimeout(() => nextQuestion(), 600);
+    }
+
+    // ------------------- 加载词库 -------------------
+    function setWords(newWords, libIdentifier, displayName) {
+        if (!newWords.length) return alert("词库为空");
+        words = newWords;
+        currentLibKey = libIdentifier;
+        currentLibName = displayName;
+        // 重置得分连胜错题本
+        totalScore = 0;
+        currentStreak = 0;
+        wrongList = [];
+        // 从 localStorage 读取熟练度
+        loadMastery();
+        updateStatsUI();
+        nextQuestion();
+    }
+
+    async function loadBuiltinWordFile(url, name) {
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error("文件不存在");
+            const text = await res.text();
+            const parsed = parseWordTxt(text);
+            setWords(parsed, url, name);
+        } catch(e) {
+            alert(`加载失败: ${url}\n请确保文件已在服务器上。`);
+        }
+    }
+
+    function uploadWordFile(file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const parsed = parseWordTxt(e.target.result);
+            const libKey = "upload_" + file.name + "_" + Date.now();
+            setWords(parsed, libKey, file.name);
+        };
+        reader.readAsText(file, "UTF-8");
+    }
+
+    // 熟练度表格模态框
+    function showMasteryModal() {
+        const container = document.getElementById('masteryListContainer');
+        container.innerHTML = '<div class="mastery-header"><span>单词</span><span>熟练度(0-10)</span></div>';
+        words.forEach((w, idx) => {
+            const row = document.createElement('div');
+            row.className = 'mastery-row';
+            row.innerHTML = `<span>${w.word} (${w.meaning || ''})</span>
+                             <input type="number" min="0" max="10" step="1" value="${w.mastery || 0}" data-index="${idx}">`;
+            container.appendChild(row);
+        });
+        document.getElementById('masteryModal').style.display = 'flex';
+        window._masteryInputs = () => {
+            const inputs = container.querySelectorAll('input');
+            inputs.forEach(inp => {
+                const idx = parseInt(inp.dataset.index);
+                if (!isNaN(idx)) words[idx].mastery = parseInt(inp.value) || 0;
+            });
+            saveMastery();
+            updateStatsUI();
+            alert("熟练度已更新");
+        };
+    }
+
+    // 事件绑定
+    function bindEvents() {
+        document.getElementById('btnUp').onclick = () => handleAnswer(0);
+        document.getElementById('btnDown').onclick = () => handleAnswer(1);
+        document.getElementById('btnLeft').onclick = () => handleAnswer(2);
+        document.getElementById('btnRight').onclick = () => handleAnswer(3);
+        document.addEventListener('keydown', (e) => {
+            const k = e.key.toLowerCase();
+            if (k === 'w') { e.preventDefault(); handleAnswer(0); }
+            else if (k === 's') { e.preventDefault(); handleAnswer(1); }
+            else if (k === 'a') { e.preventDefault(); handleAnswer(2); }
+            else if (k === 'd') { e.preventDefault(); handleAnswer(3); }
+        });
+        document.getElementById('loadBuiltinBtn').onclick = () => {
+            const sel = document.getElementById('builtinSelect').value;
+            if (!sel) return alert("请选择一个内置词库");
+            const name = sel.split('/').pop();
+            loadBuiltinWordFile(sel, name);
+        };
+        document.getElementById('txtFileInput').onchange = (e) => {
+            if (e.target.files.length) uploadWordFile(e.target.files[0]);
+        };
+        document.getElementById('showMasteryBtn').onclick = showMasteryModal;
+        document.getElementById('closeMasteryModal').onclick = () => document.getElementById('masteryModal').style.display = 'none';
+        document.getElementById('saveMasteryChanges').onclick = () => {
+            if (window._masteryInputs) window._masteryInputs();
+            document.getElementById('masteryModal').style.display = 'none';
+        };
+        document.getElementById('exportMasteryBtn').onclick = exportMastery;
+        document.getElementById('importMasteryInput').onchange = (e) => {
+            if (e.target.files.length) {
+                const reader = new FileReader();
+                reader.onload = (ev) => importMastery(ev.target.result);
+                reader.readAsText(e.target.files[0]);
+            }
+        };
+    }
+
+    // 初始演示词库（备用）
+    function initSample() {
+        const sample = [
+            { word:"apple", meaning:"苹果", partOfSpeech:"名词", confusionMeanings:["萍果","平果"], confusionWords:["aple","appel"], irregularForms:"过去式:ate", collocationPrep:"of", collocationPhrase:"an apple of discord", sentenceCloze:"eat _____ apple|an", trueFalseStatement:"Apple is fruit|true" },
+            { word:"run", meaning:"跑", partOfSpeech:"动词", confusionMeanings:["走","跳"], confusionWords:["ran","rum"], irregularForms:"过去式:ran", collocationPrep:"to", collocationPhrase:"run to school", sentenceCloze:"I like to _____|run", trueFalseStatement:"Run is noun|false" }
+        ];
+        setWords(sample, "sample", "示例词库");
+    }
+
+    bindEvents();
+    initSample(); // 先加载示例，用户后续可手动切换
+</script>
+</body>
+</html>
