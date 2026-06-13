@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拼音拆音工具 - CyVRC/C-yVRC</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 12px 25px;
+            margin-bottom: 30px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .home-link {
+            color: #ffb7c5;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+        .menu-icon {
+            font-size: 1.8em;
+            color: #ffb7c5;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .menu-icon:hover { color: #fff; text-shadow: 0 0 8px #ffb7c5; }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 40px 35px;
+        }
+        h1 {
+            text-align: center;
+            color: #ffb7c5;
+            font-size: 2.5em;
+            margin: 0 0 10px;
+            text-shadow: 0 0 20px rgba(255,183,197,0.5);
+        }
+        .subtitle {
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            color: #ffb7c5;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #ff8cb3;
+            box-shadow: 0 0 10px rgba(255,140,179,0.3);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: linear-gradient(135deg, #ff8cb3, #ff69b4);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 15px rgba(255,140,179,0.4);
+            font-size: 1em;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255,105,180,0.7);
+        }
+        .btn-clear {
+            background: rgba(255,255,255,0.1);
+            box-shadow: none;
+        }
+        .btn-clear:hover {
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .output-area {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 80px;
+            word-break: break-all;
+            font-size: 1.1em;
+            line-height: 1.8;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .output-area.empty {
+            color: rgba(255,255,255,0.3);
+            font-style: italic;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="home-link">首页</a>
+        <a href="directory.html" class="menu-icon">☰</a>
+    </nav>
+
+    <div class="container">
+        <h1>🧩 拼音拆音工具</h1>
+        <p class="subtitle">输入空格分隔的拼音，自动转换为 CyVRC / C-yVRC 拆音格式</p>
+
+        <label for="pinyinInput">输入拼音（例如：ni hao shi jie）</label>
+        <textarea id="pinyinInput" rows="3" placeholder="请输入拼音..."></textarea>
+
+        <div class="button-row">
+            <button class="btn" id="convertBtn">⚡ 转换</button>
+            <button class="btn btn-clear" id="clearBtn">🗑️ 清空</button>
+        </div>
+
+        <label>转换结果：</label>
+        <div class="output-area empty" id="outputArea">等待输入...</div>
+    </div>
+
+    <div class="footer">© 2026 二项式顺铂 · 幻音歌姬计划</div>
+
+    <script>
+        // -------------------- 拆音逻辑（完全移植自 C++） --------------------
+        const toLower = (s) => s.toLowerCase();
+
+        const RHYME_MAP = {
+            "i":   ["i", ""],
+            "u":   ["u", ""],
+            "v":   ["v", ""],
+            "a":   ["a", ""],
+            "o":   ["o", ""],
+            "e":   ["e", ""],
+            "in":  ["i", "n"],
+            "ing": ["i", "n"],
+            "un":  ["e", "n"],
+            "uan": ["eh", "n"],
+            "ian": ["eh", "n"],
+            "ao":  ["ah", "u"],
+            "ang": ["ah", "n"],
+            "ou":  ["o", "u"],
+            "iu":  ["o", "u"],
+            "ei":  ["eh", "i"],
+            "ui":  ["eh", "i"],
+            "ie":  ["i", "eh"],
+            "ve":  ["v", "eh"],
+            "an":  ["a", "n"],
+            "en":  ["e", "n"],
+            "eng": ["e", "n"],
+            "ong": ["o", "n"],
+            "ue":  ["v", "eh"]
+        };
+
+        const ZERO_INITIAL_MAP = {
+            "yi":   ["0y", "i", ""],
+            "wu":   ["0w", "u", ""],
+            "yu":   ["0v", "u", ""],
+            "yuan": ["0v", "eh", "n"],
+            "yue":  ["0v", "eh", ""],
+            "yun":  ["0v", "e", "n"],
+            "ya":   ["0y", "a", ""],
+            "you":  ["0y", "o", "u"],
+            "wo":   ["0w", "o", ""],
+            "wa":   ["0w", "a", ""],
+            "ying": ["0y", "i", "n"]
+        };
+
+        const WHOLE_SYLLABLE_MAP = {
+            "zhi": "j-0", "chi": "q-0", "shi": "x-0", "ri": "r-0",
+            "zi":  "j-0", "ci":  "c-0", "si":  "s-0"
+        };
+
+        function formatPart(p1, p2, p3) {
+            if (p3 === "") return p1 + "-" + p2;
+            else            return p1 + "-" + p2 + "-" + p3;
+        }
+
+        function processRhymeWithMedial(rhyme) {
+            if (rhyme.length === 0) return ["", ""];
+            // 整体映射
+            if (RHYME_MAP[rhyme]) return [...RHYME_MAP[rhyme]]; // shallow copy
+            let medial = rhyme[0];
+            let rest = rhyme.slice(1);
+            let part2, part3;
+            if (rest.length === 0) {
+                if (medial === 'i') part2 = "i";
+                else if (medial === 'u') part2 = "u";
+                else part2 = "v";
+                part3 = "";
+            } else {
+                if (RHYME_MAP[rest]) {
+                    [part2, part3] = [...RHYME_MAP[rest]];
+                } else {
+                    part2 = rest;
+                    part3 = "";
+                }
+            }
+            return [part2, part3];
+        }
+
+        function splitPinyin(p) {
+            if (p.length === 0) return "";
+            p = toLower(p);
+
+            // 整体认读
+            if (WHOLE_SYLLABLE_MAP[p]) return WHOLE_SYLLABLE_MAP[p];
+
+            // 零声母 a/e/o 开头
+            if (p[0] === 'a' || p[0] === 'e' || p[0] === 'o') {
+                let p2, p3;
+                if (RHYME_MAP[p]) {
+                    [p2, p3] = [...RHYME_MAP[p]];
+                } else {
+                    p2 = p;
+                    p3 = "";
+                }
+                return formatPart("0", p2, p3);
+            }
+
+            // 零声母 y/w 开头
+            if (p[0] === 'y' || p[0] === 'w') {
+                if (ZERO_INITIAL_MAP[p]) {
+                    const [z1, z2, z3] = ZERO_INITIAL_MAP[p];
+                    return formatPart(z1, z2, z3);
+                }
+                let part1 = (p[0] === 'y') ? "0y" : "0w";
+                let rest = p.slice(1);
+                const [res1, res2] = processRhymeWithMedial(rest);
+                return formatPart(part1, res1, res2);
+            }
+
+            // 非零声母：提取声母
+            let cons, rhyme;
+            if (p.startsWith("zh") || p.startsWith("ch") || p.startsWith("sh")) {
+                if (p.startsWith("zh")) cons = "j";
+                else if (p.startsWith("ch")) cons = "q";
+                else cons = "x";
+                rhyme = p.slice(2);
+            } else {
+                cons = p[0];
+                rhyme = p.slice(1);
+            }
+
+            let hasMedial = (rhyme.length > 0 && (rhyme[0] === 'i' || rhyme[0] === 'u' || rhyme[0] === 'v'));
+            let part1, part2, part3;
+
+            if (hasMedial) {
+                const m = rhyme[0];
+                let medial;
+                if (m === 'i') medial = "y";
+                else if (m === 'u') medial = "w";
+                else medial = "v";
+                part1 = cons + medial;
+                const [res1, res2] = processRhymeWithMedial(rhyme);
+                part2 = res1;
+                part3 = res2;
+            } else {
+                part1 = cons;
+                if (rhyme.length === 0) {
+                    part2 = ""; part3 = "";
+                } else {
+                    if (RHYME_MAP[rhyme]) {
+                        [part2, part3] = [...RHYME_MAP[rhyme]];
+                    } else {
+                        part2 = rhyme;
+                        part3 = "";
+                    }
+                }
+            }
+            return formatPart(part1, part2, part3);
+        }
+
+        function convertPinyinString(input) {
+            const tokens = input.trim().split(/\s+/);
+            const results = tokens.map(token => splitPinyin(token));
+            return results.join(" ");
+        }
+
+        // -------------------- 页面交互 --------------------
+        const inputEl = document.getElementById('pinyinInput');
+        const outputEl = document.getElementById('outputArea');
+        const convertBtn = document.getElementById('convertBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        function updateOutput() {
+            const raw = inputEl.value.trim();
+            if (raw === "") {
+                outputEl.textContent = "等待输入...";
+                outputEl.classList.add('empty');
+            } else {
+                const result = convertPinyinString(raw);
+                outputEl.textContent = result;
+                outputEl.classList.remove('empty');
+            }
+        }
+
+        convertBtn.addEventListener('click', updateOutput);
+        clearBtn.addEventListener('click', () => {
+            inputEl.value = "";
+            outputEl.textContent = "等待输入...";
+            outputEl.classList.add('empty');
+        });
+
+        // 回车自动转换（Ctrl+Enter 也可以）
+        inputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                updateOutput();
+            }
+        });
+    </script>
+</body>
+</html>
