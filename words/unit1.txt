@@ -1,0 +1,664 @@
+[WORD]
+beware
+[MEANING]
+小心；谨防
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+注意|提醒|意识到
+[CONFUSIONS_WORD]
+bewilder|bewitch|aware
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:of|搭配:beware of pickpockets
+[SENTENCE_CLOZE]
+You should _____ of the dog in that yard.|beware
+[TRUE_FALSE_STATEMENT]
+Beware is often used as a warning to be cautious.|true
+
+[WORD]
+belong
+[MEANING]
+属于；应在…位置
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+拥有|适合|停留
+[CONFUSIONS_WORD]
+long|belongings|behold
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:to|搭配:belong to a club
+[SENTENCE_CLOZE]
+This book doesn't _____ to me.|belong
+[TRUE_FALSE_STATEMENT]
+Belong can be used to show possession.|true
+
+[WORD]
+bewilder
+[MEANING]
+使迷惑；使糊涂
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+迷惑|惊讶|困扰
+[CONFUSIONS_WORD]
+beware|bewitch|wild
+[IRREGULAR_FORMS]
+过去式:bewildered|过去分词:bewildered|现在分词:bewildering
+[COLLOCATION]
+介词:by|搭配:bewildered by the noise
+[SENTENCE_CLOZE]
+The complex instructions often _____ the new users.|bewilder
+[TRUE_FALSE_STATEMENT]
+To bewilder someone means to make them confused.|true
+
+[WORD]
+betray
+[MEANING]
+背叛；出卖
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+欺骗|伤害|指责
+[CONFUSIONS_WORD]
+portray|betrayal|beguile
+[IRREGULAR_FORMS]
+过去式:betrayed|过去分词:betrayed|现在分词:betraying
+[COLLOCATION]
+介词:to|搭配:betray a secret to the enemy
+[SENTENCE_CLOZE]
+He would never _____ his best friend.|betray
+[TRUE_FALSE_STATEMENT]
+Betraying someone means showing loyalty.|false
+
+[WORD]
+bygone
+[MEANING]
+过去的；以往的
+[PART_OF_SPEECH]
+形容词
+[CONFUSIONS_MEANING]
+过时的|以往的|消逝的
+[CONFUSIONS_WORD]
+bygones|foregone|bypass
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:in|搭配:in bygone days
+[SENTENCE_CLOZE]
+Let bygones be _____.|bygones
+[TRUE_FALSE_STATEMENT]
+A bygone era refers to a time in the past.|true
+
+[WORD]
+by-product
+[MEANING]
+副产品；附带结果
+[PART_OF_SPEECH]
+名词
+[CONFUSIONS_MEANING]
+产物|废弃物|结果
+[CONFUSIONS_WORD]
+bypass|product|byproduct
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:of|搭配:a by-product of the process
+[SENTENCE_CLOZE]
+Sawdust is a _____-_____ of cutting wood.|by-product
+[TRUE_FALSE_STATEMENT]
+A by-product is the main intended result of a process.|false
+
+[WORD]
+byword
+[MEANING]
+代名词；谚语
+[PART_OF_SPEECH]
+名词
+[CONFUSIONS_MEANING]
+谚语|绰号|代号
+[CONFUSIONS_WORD]
+byword|password|foreword
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:for|搭配:a byword for quality
+[SENTENCE_CLOZE]
+His name became a _____ for cruelty.|byword
+[TRUE_FALSE_STATEMENT]
+A byword is a word or phrase that represents something typical.|true
+
+[WORD]
+bypass
+[MEANING]
+绕过；避开
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+经过|回避|超越
+[CONFUSIONS_WORD]
+bypass|bypast|pass
+[IRREGULAR_FORMS]
+过去式:bypassed|过去分词:bypassed|现在分词:bypassing
+[COLLOCATION]
+介词:around|搭配:bypass the city via the ring road
+[SENTENCE_CLOZE]
+They decided to _____ the crowded market.|bypass
+[TRUE_FALSE_STATEMENT]
+To bypass something means to go through it.|false
+
+[WORD]
+embody
+[MEANING]
+体现；使具体化
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+包含|代表|象征
+[CONFUSIONS_WORD]
+embed|embrace|embalm
+[IRREGULAR_FORMS]
+过去式:embodied|过去分词:embodied|现在分词:embodying
+[COLLOCATION]
+介词:in|搭配:principles embodied in the law
+[SENTENCE_CLOZE]
+The statue seems to _____ the spirit of freedom.|embody
+[TRUE_FALSE_STATEMENT]
+To embody an idea means to give it a concrete form.|true
+
+[WORD]
+entreat
+[MEANING]
+恳求；乞求
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+请求|乞求|邀请
+[CONFUSIONS_WORD]
+entrance|retreat|entail
+[IRREGULAR_FORMS]
+过去式:entreated|过去分词:entreated|现在分词:entreating
+[COLLOCATION]
+介词:for|搭配:entreat him for mercy
+[SENTENCE_CLOZE]
+I _____ you to reconsider your decision.|entreat
+[TRUE_FALSE_STATEMENT]
+To entreat someone is to demand something forcefully.|false
+
+[WORD]
+embed
+[MEANING]
+嵌入；深留（脑中）
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+植入|插入|固定
+[CONFUSIONS_WORD]
+embody|imbed|emblem
+[IRREGULAR_FORMS]
+过去式:embedded|过去分词:embedded|现在分词:embedding
+[COLLOCATION]
+介词:in|搭配:embed a video in the webpage
+[SENTENCE_CLOZE]
+The journalist was _____ with the military unit.|embedded
+[TRUE_FALSE_STATEMENT]
+To embed something means to remove it from a structure.|false
+
+[WORD]
+enroll
+[MEANING]
+注册；登记；使加入
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+加入|登记|报名
+[CONFUSIONS_WORD]
+enrol|enrolls|enfold
+[IRREGULAR_FORMS]
+过去式:enrolled|过去分词:enrolled|现在分词:enrolling
+[COLLOCATION]
+介词:in|搭配:enroll in a course
+[SENTENCE_CLOZE]
+She decided to _____ in the online cooking class.|enroll
+[TRUE_FALSE_STATEMENT]
+Enroll means to officially register as a member.|true
+
+[WORD]
+endear
+[MEANING]
+使受喜爱；使受青睐
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+喜爱|吸引|讨好
+[CONFUSIONS_WORD]
+endeavor|endanger|dear
+[IRREGULAR_FORMS]
+过去式:endeared|过去分词:endeared|现在分词:endearing
+[COLLOCATION]
+介词:to|搭配:endear herself to the audience
+[SENTENCE_CLOZE]
+His kindness _____ him to all his colleagues.|endeared
+[TRUE_FALSE_STATEMENT]
+If someone endears themselves to you, you dislike them.|false
+
+[WORD]
+enrich
+[MEANING]
+使丰富；充实
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+丰富|增强|改善
+[CONFUSIONS_WORD]
+enrich|enrage|entrench
+[IRREGULAR_FORMS]
+过去式:enriched|过去分词:enriched|现在分词:enriching
+[COLLOCATION]
+介词:with|搭配:enrich the soil with compost
+[SENTENCE_CLOZE]
+Traveling can greatly _____ your life experience.|enrich
+[TRUE_FALSE_STATEMENT]
+Enrich means to make something poorer in quality.|false
+
+[WORD]
+embolden
+[MEANING]
+使大胆；鼓励
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+鼓励|壮胆|激励
+[CONFUSIONS_WORD]
+embody|bold|embalm
+[IRREGULAR_FORMS]
+过去式:emboldened|过去分词:emboldened|现在分词:emboldening
+[COLLOCATION]
+介词:by|搭配:emboldened by the support
+[SENTENCE_CLOZE]
+The positive feedback _____ her to speak up.|emboldened
+[TRUE_FALSE_STATEMENT]
+Embolden means to make someone feel more confident.|true
+
+[WORD]
+enlighten
+[MEANING]
+启发；开导
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+启发|教导|照亮
+[CONFUSIONS_WORD]
+enliven|lighten|enlist
+[IRREGULAR_FORMS]
+过去式:enlightened|过去分词:enlightened|现在分词:enlightening
+[COLLOCATION]
+介词:about|搭配:enlighten me about the plan
+[SENTENCE_CLOZE]
+Could you please _____ us on the situation?|enlighten
+[TRUE_FALSE_STATEMENT]
+To enlighten someone is to give them greater knowledge.|true
+
+[WORD]
+enliven
+[MEANING]
+使活泼；使生动
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+活跃|激活|振奋
+[CONFUSIONS_WORD]
+enlighten|alive|liven
+[IRREGULAR_FORMS]
+过去式:enlivened|过去分词:enlivened|现在分词:enlivening
+[COLLOCATION]
+介词:with|搭配:enliven the party with games
+[SENTENCE_CLOZE]
+Some music can really _____ a dull meeting.|enliven
+[TRUE_FALSE_STATEMENT]
+Enliven means to make something less exciting.|false
+
+[WORD]
+forbear
+[MEANING]
+克制；忍耐；避免
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+忍耐|克制|放弃
+[CONFUSIONS_WORD]
+forebear|forbid|forbore
+[IRREGULAR_FORMS]
+过去式:forbore|过去分词:forborne|现在分词:forbearing
+[COLLOCATION]
+介词:from|搭配:forbear from commenting
+[SENTENCE_CLOZE]
+He decided to _____ from making any harsh remarks.|forbear
+[TRUE_FALSE_STATEMENT]
+To forbear means to show patience and restraint.|true
+
+[WORD]
+forbid
+[MEANING]
+禁止；不准
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+禁止|阻止|限制
+[CONFUSIONS_WORD]
+forbid|forbade|forebode
+[IRREGULAR_FORMS]
+过去式:forbade|过去分词:forbidden|现在分词:forbidding
+[COLLOCATION]
+介词:from|搭配:forbid him from entering
+[SENTENCE_CLOZE]
+The school rules _____ students from using phones in class.|forbid
+[TRUE_FALSE_STATEMENT]
+If you forbid something, you allow it to happen.|false
+
+[WORD]
+forebode
+[MEANING]
+预示（尤指不祥之事）
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+预示|预言|警告
+[CONFUSIONS_WORD]
+forbid|foretell|foreboding
+[IRREGULAR_FORMS]
+过去式:foreboded|过去分词:foreboded|现在分词:foreboding
+[COLLOCATION]
+介词:of|搭配:forebode disaster
+[SENTENCE_CLOZE]
+Dark clouds _____ a coming storm.|forebode
+[TRUE_FALSE_STATEMENT]
+Forebode is often used to predict something pleasant.|false
+
+[WORD]
+forecast
+[MEANING]
+预报；预测
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+预测|预报|计划
+[CONFUSIONS_WORD]
+foretell|foremost|forebode
+[IRREGULAR_FORMS]
+过去式:forecast|过去分词:forecast|现在分词:forecasting
+[COLLOCATION]
+介词:for|搭配:forecast for tomorrow
+[SENTENCE_CLOZE]
+The weather report _____ heavy rain this weekend.|forecasts
+[TRUE_FALSE_STATEMENT]
+A forecast is a statement about what is likely to happen in the future.|true
+
+[WORD]
+foremost
+[MEANING]
+最重要的；最前的
+[PART_OF_SPEECH]
+形容词
+[CONFUSIONS_MEANING]
+首要的|领先的|最初的
+[CONFUSIONS_WORD]
+foremost|forecast|utmost
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:among|搭配:first and foremost
+[SENTENCE_CLOZE]
+He is considered one of the _____ experts in his field.|foremost
+[TRUE_FALSE_STATEMENT]
+Foremost means the least important.|false
+
+[WORD]
+foresee
+[MEANING]
+预见；预知
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+预见|预测|预期
+[CONFUSIONS_WORD]
+foretell|forecast|foreseeable
+[IRREGULAR_FORMS]
+过去式:foresaw|过去分词:foreseen|现在分词:foreseeing
+[COLLOCATION]
+介词:in|搭配:foresee a problem in advance
+[SENTENCE_CLOZE]
+No one could _____ the sudden economic downturn.|foresee
+[TRUE_FALSE_STATEMENT]
+To foresee means to see or know something beforehand.|true
+
+[WORD]
+foretell
+[MEANING]
+预言；预示
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+预言|预告|预报
+[CONFUSIONS_WORD]
+foretell|forecast|retell
+[IRREGULAR_FORMS]
+过去式:foretold|过去分词:foretold|现在分词:foretelling
+[COLLOCATION]
+介词:of|搭配:foretell the future
+[SENTENCE_CLOZE]
+The ancient prophecy _____ the rise of a hero.|foretold
+[TRUE_FALSE_STATEMENT]
+To foretell something is to describe a past event.|false
+
+[WORD]
+misfortune
+[MEANING]
+不幸；厄运；灾难
+[PART_OF_SPEECH]
+名词
+[CONFUSIONS_MEANING]
+不幸|灾祸|倒霉
+[CONFUSIONS_WORD]
+misfortune|mishap|fortune
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:by|搭配:by some misfortune
+[SENTENCE_CLOZE]
+She had the _____ to lose her job during the crisis.|misfortune
+[TRUE_FALSE_STATEMENT]
+Misfortune refers to good luck.|false
+
+[WORD]
+misgivings
+[MEANING]
+疑虑；担忧（复数形式常用）
+[PART_OF_SPEECH]
+名词
+[CONFUSIONS_MEANING]
+疑虑|不安|怀疑
+[CONFUSIONS_WORD]
+misgivings|misgiving|misconduct
+[IRREGULAR_FORMS]
+复数:misgivings
+[COLLOCATION]
+介词:about|搭配:misgivings about the plan
+[SENTENCE_CLOZE]
+Despite her _____, she agreed to follow the proposal.|misgivings
+[TRUE_FALSE_STATEMENT]
+Misgivings are feelings of doubt or worry.|true
+
+[WORD]
+misuse
+[MEANING]
+误用；滥用
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+滥用|错用|虐待
+[CONFUSIONS_WORD]
+misuse|disuse|amuse
+[IRREGULAR_FORMS]
+过去式:misused|过去分词:misused|现在分词:misusing
+[COLLOCATION]
+介词:of|搭配:misuse of authority
+[SENTENCE_CLOZE]
+It is dangerous to _____ prescription drugs.|misuse
+[TRUE_FALSE_STATEMENT]
+To misuse something means to use it in the correct way.|false
+
+[WORD]
+misery
+[MEANING]
+痛苦；苦难；悲惨
+[PART_OF_SPEECH]
+名词
+[CONFUSIONS_MEANING]
+痛苦|悲伤|悲惨
+[CONFUSIONS_WORD]
+misery|mystery|miser
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:in|搭配:live in misery
+[SENTENCE_CLOZE]
+The long winter brought great _____ to the homeless.|misery
+[TRUE_FALSE_STATEMENT]
+Misery is a state of great happiness.|false
+
+[WORD]
+miscue
+[MEANING]
+失误；撞球失误（或泛指失误）
+[PART_OF_SPEECH]
+名词
+[CONFUSIONS_MEANING]
+失误|错误|差错
+[CONFUSIONS_WORD]
+miscue|rescue|miscount
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:on|搭配:a miscue on the stage
+[SENTENCE_CLOZE]
+The actor's _____ during the performance was barely noticeable.|miscue
+[TRUE_FALSE_STATEMENT]
+A miscue is a type of intentional correct action.|false
+
+[WORD]
+mistake
+[MEANING]
+错误；误会
+[PART_OF_SPEECH]
+名词
+[CONFUSIONS_MEANING]
+错误|过失|误解
+[CONFUSIONS_WORD]
+mistake|miscue|mistook
+[IRREGULAR_FORMS]
+复数:mistakes
+[COLLOCATION]
+介词:by|搭配:by mistake
+[SENTENCE_CLOZE]
+I took your umbrella by _____.|mistake
+[TRUE_FALSE_STATEMENT]
+A mistake is an act that is always correct.|false
+
+[WORD]
+misconduct
+[MEANING]
+不端行为；管理不善
+[PART_OF_SPEECH]
+名词
+[CONFUSIONS_MEANING]
+不当行为|渎职|过错
+[CONFUSIONS_WORD]
+misconduct|miscount|misconstrue
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:of|搭配:allegations of misconduct
+[SENTENCE_CLOZE]
+The officer was dismissed for serious _____.|misconduct
+[TRUE_FALSE_STATEMENT]
+Misconduct refers to proper and ethical behavior.|false
+
+[WORD]
+mislead
+[MEANING]
+误导；使误信
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+误导|欺骗|引入歧途
+[CONFUSIONS_WORD]
+mislead|misread|misdeed
+[IRREGULAR_FORMS]
+过去式:misled|过去分词:misled|现在分词:misleading
+[COLLOCATION]
+介词:into|搭配:mislead customers into buying
+[SENTENCE_CLOZE]
+Don't let the fancy packaging _____ you.|mislead
+[TRUE_FALSE_STATEMENT]
+To mislead someone is to give them false or unclear information.|true
+
+[WORD]
+engage
+[MEANING]
+吸引；雇用；使参与
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+吸引|参加|订婚
+[CONFUSIONS_WORD]
+engage|engorge|gauge
+[IRREGULAR_FORMS]
+过去式:engaged|过去分词:engaged|现在分词:engaging
+[COLLOCATION]
+介词:in|搭配:engage in a discussion
+[SENTENCE_CLOZE]
+Teachers try to _____ students in active learning.|engage
+[TRUE_FALSE_STATEMENT]
+To engage someone means to make them interested and involved.|true
+
+[WORD]
+bewitch
+[MEANING]
+使着迷；施魔法于
+[PART_OF_SPEECH]
+动词
+[CONFUSIONS_MEANING]
+迷惑|着迷|施魔法
+[CONFUSIONS_WORD]
+bewitch|bewilder|witch
+[IRREGULAR_FORMS]
+过去式:bewitched|过去分词:bewitched|现在分词:bewitching
+[COLLOCATION]
+介词:with|搭配:bewitch with her charm
+[SENTENCE_CLOZE]
+The mysterious melody seemed to _____ the entire audience.|bewitch
+[TRUE_FALSE_STATEMENT]
+To bewitch someone can mean to cast a spell on them.|true
+
+[WORD]
+benign
+[MEANING]
+良性的；和蔼的；无害的
+[PART_OF_SPEECH]
+形容词
+[CONFUSIONS_MEANING]
+仁慈的|良性的|温和的
+[CONFUSIONS_WORD]
+benign|begin|malignant
+[IRREGULAR_FORMS]
+无
+[COLLOCATION]
+介词:of|搭配:a tumor of benign nature
+[SENTENCE_CLOZE]
+The doctor confirmed that the lump was _____ and not cancerous.|benign
+[TRUE_FALSE_STATEMENT]
+A benign tumor is usually harmful and spreads quickly.|false
